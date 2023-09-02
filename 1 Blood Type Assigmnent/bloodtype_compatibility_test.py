@@ -71,49 +71,12 @@ def logic_compatibility(blood_type_receiver, blood_type_donor) -> bool:
     blood_type_receiver_encoded = encode_blood_type(blood_type_receiver)
     blood_type_donor_encoded = encode_blood_type(blood_type_donor)
 
-    def are_bits_the_same(number1, number2, bit_position) -> bool:
+    def are_bits_compatible(number1, number2, bit_position) -> bool:
         bit1 = (number1 >> bit_position) & 1
         bit2 = (number2 >> bit_position) & 1
-        return bit1 == bit2
+        return bit1 == bit2 or not (number1 & (1 << bit_position))
 
-    # Types 0 and B
-    if (blood_type_receiver_encoded >> 2) & 1 == 0:
-        # Type 0
-        if (blood_type_receiver_encoded >> 1) & 1 == 0:
-            # Type 0-
-            if (blood_type_receiver_encoded >> 0) & 1 == 0:
-                return True
-            # Type 0+
-            elif are_bits_the_same(blood_type_receiver_encoded, blood_type_donor_encoded, 0):
-                return True
-        # Type B
-        elif are_bits_the_same(blood_type_receiver_encoded, blood_type_donor_encoded, 1):
-            # Type B-
-            if (blood_type_receiver_encoded >> 0) & 1 == 0:
-                return True
-            # Type B+
-            elif are_bits_the_same(blood_type_receiver_encoded, blood_type_donor_encoded, 0):
-                return True
-    # Types A and AB
-    elif (blood_type_receiver_encoded >> 2) & 1 == 1:
-        # Type A
-        if (blood_type_receiver_encoded >> 1) & 1 == 0 and are_bits_the_same(blood_type_receiver_encoded, blood_type_donor_encoded, 2):
-            # Type A-
-            if (blood_type_receiver_encoded >> 0) & 1 == 0:
-                return True
-            # Type A+
-            elif are_bits_the_same(blood_type_receiver_encoded, blood_type_donor_encoded, 0):
-                return True
-        # Type AB
-        if (blood_type_receiver_encoded >> 1) & 1 == 1:
-            if are_bits_the_same(blood_type_receiver_encoded, blood_type_donor_encoded, 2) and are_bits_the_same(blood_type_receiver_encoded, blood_type_donor_encoded, 1):
-                # Type AB-
-                if (blood_type_receiver_encoded >> 0) & 1 == 0:
-                    return True
-                # Type AB+
-                if are_bits_the_same(blood_type_receiver_encoded, blood_type_donor_encoded, 0):
-                    return True
-    return False
+    return all(are_bits_compatible(blood_type_receiver_encoded, blood_type_donor_encoded, bit_position) for bit_position in range(3))
 
 
 blood_types = ["A-", "A+", "B-", "B+", "AB-", "AB+", "0-", "0+"]
