@@ -61,12 +61,14 @@ def encode_blood_type(blood_type_string):
     return blood_types.get(blood_type_string)
 
 
+# Function for truth table based compatibility
 def truth_table_compatibility(blood_type_receiver, blood_type_donor) -> bool:
     blood_type_receiver_encoded = encode_blood_type(blood_type_receiver)
     blood_type_donor_encoded = encode_blood_type(blood_type_donor)
     return blood_type_table.get((blood_type_receiver_encoded, blood_type_donor_encoded), False)
 
 
+# Function for logic based compatibility
 def logic_compatibility(blood_type_receiver, blood_type_donor) -> bool:
     blood_type_receiver_encoded = encode_blood_type(blood_type_receiver)
     blood_type_donor_encoded = encode_blood_type(blood_type_donor)
@@ -81,6 +83,7 @@ def logic_compatibility(blood_type_receiver, blood_type_donor) -> bool:
 
 blood_types = ["A-", "A+", "B-", "B+", "AB-", "AB+", "0-", "0+"]
 
+# Check if both functions return the same result for a pair
 is_error = False
 for blood_receiver in blood_types:
     for blood_donor in blood_types:
