@@ -1,4 +1,3 @@
-
 # Create a compatibility table
 blood_type_table = {
     # 0- compatibility
@@ -61,36 +60,57 @@ def encode_blood_type(blood_type_string):
     return blood_types.get(blood_type_string)
 
 
+# Function for truth table based compatibility
 def truth_table_compatibility(blood_type_receiver, blood_type_donor) -> bool:
     blood_type_receiver_encoded = encode_blood_type(blood_type_receiver)
     blood_type_donor_encoded = encode_blood_type(blood_type_donor)
     return blood_type_table.get((blood_type_receiver_encoded, blood_type_donor_encoded), False)
 
 
+# Function for logic based compatibility
 def logic_compatibility(blood_type_receiver, blood_type_donor) -> bool:
     blood_type_receiver_encoded = encode_blood_type(blood_type_receiver)
     blood_type_donor_encoded = encode_blood_type(blood_type_donor)
 
+    # Sub-function that checks if two binary numbers are compatible at a bit specified by a bit position
+    # Returns true if:
+    #   - The two bits are the same
+    #   or
+    #   - The bit in the first number is 0
     def are_bits_compatible(number1, number2, bit_position) -> bool:
         bit1 = (number1 >> bit_position) & 1
         bit2 = (number2 >> bit_position) & 1
         return bit1 == bit2 or not (number1 & (1 << bit_position))
 
-    return all(are_bits_compatible(blood_type_receiver_encoded, blood_type_donor_encoded, bit_position) for bit_position in range(3))
+    return all(
+        are_bits_compatible(blood_type_receiver_encoded, blood_type_donor_encoded, bit_position) for bit_position in
+        range(3))
 
 
 blood_types = ["A-", "A+", "B-", "B+", "AB-", "AB+", "0-", "0+"]
 
-is_error = False
-for blood_receiver in blood_types:
-    for blood_donor in blood_types:
-        truth_table = truth_table_compatibility(blood_receiver, blood_donor)
-        logic = logic_compatibility(blood_receiver, blood_donor)
-        if truth_table != logic:
-            print(f"Error for receiver: {blood_receiver} and donor: {blood_donor}. Logic: {logic}, truth table: {truth_table}")
-            is_error = True
-if not is_error:
+
+# Check if both functions return the same result for a pair
+def are_functions_equivalent():
     for blood_receiver in blood_types:
         for blood_donor in blood_types:
-            print(f"{blood_receiver} can receive blood from {blood_donor}: {truth_table_compatibility(blood_receiver,blood_donor)}")
+            truth_table = truth_table_compatibility(blood_receiver, blood_donor)
+            logic = logic_compatibility(blood_receiver, blood_donor)
+            if truth_table != logic:
+                print(
+                    f"Error for receiver: {blood_receiver} and donor: {blood_donor}. Logic: {logic}, truth table: {truth_table}")
+                return False
+    return True
 
+
+# Print blood compatibility for all blood types
+def print_blood_compatibility():
+    if are_functions_equivalent():
+        # If both functions return the same, display the results
+        for blood_receiver in blood_types:
+            for blood_donor in blood_types:
+                print(
+                    f"{blood_receiver} can receive blood from {blood_donor}: {truth_table_compatibility(blood_receiver, blood_donor)}")
+
+
+print_blood_compatibility()
