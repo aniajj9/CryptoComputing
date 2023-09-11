@@ -23,6 +23,17 @@ blood_type_to_index = {
     'AB+': 7
 }
 
+index_to_blood_type = {
+    0: "0-",
+    1: "0+",
+    2: "A-",
+    3: "A+",
+    4: "B-",
+    5: "B+",
+    6: "AB-",
+    7: "AB+",
+    }
+
 n = 8
 
 
@@ -131,7 +142,8 @@ class Bob:
 
 
 class Dealer:
-    def __init__(self):
+    def __init__(self, truth_table):
+        self.__truth_table = truth_table
         self.__r = None
         self.__s = None
         self.__Mb = None
@@ -148,7 +160,7 @@ class Dealer:
         self.__Mb = generate_random_matrix(n)
 
     def calculate_ma(self):
-        shifted_table = circular_shift_matrix(blood_type_table_2D, self.__r, self.__s)
+        shifted_table = circular_shift_matrix(self.__truth_table, self.__r, self.__s)
         self.__Ma = two_dimensions_xor(shifted_table, self.__Mb)
 
     def set_Alice_values(self, alice):
@@ -162,8 +174,8 @@ class Dealer:
         bob.set_Mb(self.__Mb)
 
 
-def execute_protocol(x, y):
-    dealer = Dealer()
+def one_time_truth_table_protocol(x, y, truth_table):
+    dealer = Dealer(truth_table)
     alice = Alice(x)
     bob = Bob(y)
 
@@ -184,10 +196,26 @@ def execute_protocol(x, y):
 
     # Calculate z
     alice.calculate_z()
-    print("Result value z is: ", alice.get_z())
     return alice.get_z()
 
-execute_protocol(1,1)
+
+def is_function_equal_to_truth_table(function, truth_table):
+    for i in range(len(truth_table)):
+        for j in range(len(truth_table[i])):
+            if function(i, j, truth_table) is not truth_table[i][j]:
+                return False
+    return True
+
+
+def one_time_truth_table_blood_compatibility(table):
+    for i in range(len(table)):
+        for j in range(len(table[i])):
+            print(f"{index_to_blood_type.get(i)} can receive blood from {index_to_blood_type.get(j)}: {one_time_truth_table_protocol(i, j, table)}")
+
+
+if is_function_equal_to_truth_table(one_time_truth_table_protocol, blood_type_table_2D):
+    one_time_truth_table_blood_compatibility(blood_type_table_2D)
+
 
 
 
