@@ -81,7 +81,7 @@ class Alice:
 
     def compute_U(self):
         assert self.__x is not None and self.__r is not None
-        self.__U = (self.__x + self.__r) % (2**n)
+        self.__U = (self.__x + self.__r) % (n) # TODO: 2**n
 
     def send_U_to_Bob(self, bob):
         bob.set_U(self.__U)
@@ -116,7 +116,7 @@ class Bob:
 
     def compute_V(self):
         assert self.__y is not None and self.__s is not None
-        self.__V = (self.__y + self.__s) % (2 ** n)
+        self.__V = (self.__y + self.__s) % (n) # TODO: set 2**n
 
     def send_V_to_Alice(self, alice):
         alice.set_V(self.__V)
@@ -148,7 +148,7 @@ class Dealer:
         self.__Mb = generate_random_matrix(n)
 
     def calculate_ma(self):
-        shifted_table = circular_shift_matrix(self.__Mb, self.__r, self.__s)
+        shifted_table = circular_shift_matrix(blood_type_table_2D, self.__r, self.__s)
         self.__Ma = two_dimensions_xor(shifted_table, self.__Mb)
 
     def set_Alice_values(self, alice):
@@ -185,9 +185,9 @@ def execute_protocol(x, y):
     # Calculate z
     alice.calculate_z()
     print("Result value z is: ", alice.get_z())
+    return alice.get_z()
 
-
-execute_protocol(1, 0)
+execute_protocol(1,1)
 
 
 
