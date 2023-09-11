@@ -12,6 +12,8 @@ blood_type_table_2D = [
     [False, False, False, False, False, False, False, True]  # AB+
 ]
 
+n = 3
+
 blood_type_to_index = {
     '0-': 0,
     '0+': 1,
@@ -34,7 +36,6 @@ index_to_blood_type = {
     7: "AB+",
     }
 
-n = 8
 
 
 def circular_shift_matrix(matrix, r, s):
@@ -51,7 +52,7 @@ def circular_shift_matrix(matrix, r, s):
 
 
 def generate_random_matrix(n):
-    return [[random.choice([True, False]) for _ in range(n)] for _ in range(n)]
+    return [[random.choice([True, False]) for _ in range(2**n)] for _ in range(2**n)]
 
 
 def two_dimensions_xor(array1, array2):
@@ -92,7 +93,7 @@ class Alice:
 
     def compute_U(self):
         assert self.__x is not None and self.__r is not None
-        self.__U = (self.__x + self.__r) % (n) # TODO: 2**n
+        self.__U = (self.__x + self.__r) % (2**n)
 
     def send_U_to_Bob(self, bob):
         bob.set_U(self.__U)
@@ -127,7 +128,7 @@ class Bob:
 
     def compute_V(self):
         assert self.__y is not None and self.__s is not None
-        self.__V = (self.__y + self.__s) % (n) # TODO: set 2**n
+        self.__V = (self.__y + self.__s) % (2**n)
 
     def send_V_to_Alice(self, alice):
         alice.set_V(self.__V)
@@ -151,10 +152,10 @@ class Dealer:
         self.__zb = None
 
     def pick_random_r(self):
-        self.__r = random.randint(0, n)
+        self.__r = random.randint(0, 2**n)
 
     def pick_random_s(self):
-        self.__s = random.randint(0, n)
+        self.__s = random.randint(0, 2**n)
 
     def pick_random_Mb(self):
         self.__Mb = generate_random_matrix(n)
