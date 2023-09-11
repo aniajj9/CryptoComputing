@@ -1,0 +1,3 @@
+# One time truth table protocol
+The script "main.py" contains implementation of the one time truth table protocol, that allows two parties (in presence of a trusted dealer) to get a value from a truth table, where the indices are kept secret.
+The script runs without parameters. It checks if the protocol returns the same result as a truth table for all blood combinations, and if that is the case - prints all possible blood combinations and their compatibility (true/false)
