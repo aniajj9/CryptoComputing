@@ -16,17 +16,6 @@ blood_type_table_2D = [
 # Number of bits that the blood is encoded by
 n = 3
 
-index_to_blood_type = {
-    0: "0-",
-    1: "0+",
-    2: "A-",
-    3: "A+",
-    4: "B-",
-    5: "B+",
-    6: "AB-",
-    7: "AB+",
-}
-
 
 # Method that shifts matrix by r (columns) and s (rows)
 def circular_shift_matrix(matrix, r, s):
@@ -202,6 +191,16 @@ def is_function_equal_to_truth_table(function, truth_table):
 
 # Print the one time truth table protocol for all blood combinations
 def one_time_truth_table_blood_compatibility(table):
+    index_to_blood_type = {
+    0: "0-",
+    1: "0+",
+    2: "A-",
+    3: "A+",
+    4: "B-",
+    5: "B+",
+    6: "AB-",
+    7: "AB+",
+    }
     for i in range(len(table)):
         for j in range(len(table[i])):
             print(
