@@ -17,7 +17,7 @@ class Bob:
         self.__Xb = Xb
 
 
-class Bedoza:
+class Dealer:
     def __init__(self, X):
         self.__X = X
         self.__Xa = None
@@ -33,5 +33,17 @@ class Bedoza:
         assert self.__Xa is not None and self.__Xb is not None
         alice.set_Xa(self.__Xa)
         bob.set_Xb(self.__Xb)
+
+    def xor_constant(self):
+        pass
+
+    def xor(self):
+        pass
+
+    def and_constant(self):
+        pass
+
+    def and_dealer(self):
+        pass
 
 
