@@ -5,9 +5,10 @@ class Alice:
     def __init__(self, x):
         self.__x = x
         self.dictionary = {}
+        self.and_wire_values = {}
 
     def share(self, bit, bob):
-        #TODO correct this
+        # TODO correct this
         random_bit = random.randint(0, 1)
         self.__xa = random_bit
         # TODO: add share to dict
@@ -25,10 +26,23 @@ class Alice:
     def and_constant(self, constant, share_id, function_id):
         self.dictionary[function_id] = self.dictionary[share_id] * constant
 
+    def share_and_wires(self, share_1_id, share_2_id, function_id, dealer, bob):
+        U_a, V_a = dealer.generate_and_wires_randoms()
+        self.set_and_wire_values("U_a", U_a)
+        self.set_and_wire_values("V_a", V_a)
+        bob.set_and_wire_values("d", self.dictionary[share_1_id] ^ U_a)
+        bob.set_and_wire_values("e", self.dictionary[share_2_id] ^ V_a)
+
+    def and_wires(self):
+
+    def set_and_wire_values(self, key, value):
+        self.and_wire_values[key] = value
+
 
 class Bob:
     def __init__(self):
         self.dictionary = {}
+        self.and_wire_values = {}
 
     def share(self):
         pass
@@ -45,16 +59,41 @@ class Bob:
     def and_constant(self, constant, share_id, function_id):
         self.dictionary[function_id] = self.dictionary[share_id] * constant
 
+    def share_and_wires(self, share_1_id, share_2_id, alice):
+        alice.set_and_wire_values("d", self.dictionary[share_1_id] ^ self.and_wire_values["U_b"])
+        alice.set_and_wire_values("e", self.dictionary[share_2_id] ^ self.and_wire_values["V_b"])
+
+    def set_and_wire_values(self, key, value):
+        self.and_wire_values[key] = value
+
 
 class Dealer:
     def __init__(self):
         pass
 
-    def and_wires(self):
-        pass
+    def generate_and_wires_randoms(self, alice, bob):
+        U = random.randint(0, 1)
+        V = random.randint(0, 1)
+        W = U * V
+
+        U_a = random.randint(0, 1)
+        V_a = random.randint(0, 1)
+        W_a = random.randint(0, 1)
+
+        U_b = U ^ U_a
+        V_b = V ^ V_a
+        W_b = W ^ W_a
+
+        alice.set_and_wire_values("U_a", U_a)
+        alice.set_and_wire_values("V_a", V_a)
+        alice.set_and_wire_values("W_a", W_a)
+
+        bob.set_and_wire_values("U_b", U_b)
+        bob.set_and_wire_values("V_b", V_b)
+        bob.set_and_wire_values("W_b", W_b)
 
 
-xa, xb, xr, ya, yb, yr = 0,0,0,0,0,0
+xa, xb, xr, ya, yb, yr = 0, 0, 0, 0, 0, 0
 dealer = Dealer(1)
 part_1 = dealer.xor_constant(1, xa)
 part_2 = dealer.and_wires(part_1, ya)
