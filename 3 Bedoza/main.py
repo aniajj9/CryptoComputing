@@ -1,27 +1,30 @@
 import random
 
 
+# Class representing Alice
 class Alice:
     def __init__(self):
-        self.dictionary = {}
-        self.and_wire_values = {}
+        self.dictionary = {}  # Here Alice stores her shares that she received, where the keys are IDs of the functions that led to the share
+        self.and_wire_values = {}  # Here Alice stores values needed for AND WIRE gate
 
+    # Share bit, save it yourself and make bob save it
     def share(self, bit, bob, function_id):
         self.dictionary[function_id] = random.randint(0, 1)
         bob.set_dictionary(function_id, self.dictionary[function_id] ^ bit)
 
-    def open(self):
-        pass
-
+    # XOR with constant
     def xor_constant(self, constant, share_id, function_id):
         self.dictionary[function_id] = self.dictionary[share_id] ^ constant
 
+    # XOR with 2 shares
     def xor_wires(self, share_1_id, share_2_id, function_id):
         self.dictionary[function_id] = self.dictionary[share_1_id] ^ self.dictionary[share_2_id]
 
+    # AND with constant
     def and_constant(self, constant, share_id, function_id):
         self.dictionary[function_id] = self.dictionary[share_id] * constant
 
+    # AND with 2 shares
     def and_wires(self, share_1_id, share_2_id, bob, function_id):
         self.share_and_wires(share_1_id, share_2_id, bob)
         bob.share_and_wires(share_1_id, share_2_id, self)
@@ -32,8 +35,9 @@ class Alice:
         d = self.and_wire_values["d"]
         x_a = self.and_wire_values["x_a"]
         y_a = self.and_wire_values["y_a"]
-        self.dictionary[function_id] = W_a ^ (e * x_a) ^ (d * y_a) ^ (e * d)
+        self.dictionary[function_id] = W_a ^ (e * x_a) ^ (d * y_a) ^ (e * d) # Z_a
 
+    # Save shares to the dictionary, and send to Bob what he should know
     def share_and_wires(self, share_1_id, share_2_id, bob):
         self.and_wire_values["x_a"] = self.dictionary[share_1_id]
         self.and_wire_values["y_a"] = self.dictionary[share_2_id]
@@ -57,18 +61,18 @@ class Alice:
         self.dictionary[key] = value
 
 
+# Class representing Bob
 class Bob:
     def __init__(self):
-        self.dictionary = {}
-        self.and_wire_values = {}
+        self.dictionary = {}  # Here Bob stores past shares, lookable by function ID
+        self.and_wire_values = {}  # Here Bob stores shares needed for AND WIRE gate
 
+    # Share bit, save it to dictionary, make Alice save her share
     def share(self, bit, alice, function_id):
         self.dictionary[function_id] = random.randint(0, 1)
         alice.set_dictionary(function_id, self.dictionary[function_id] ^ bit)
 
-    def open(self):
-        pass
-
+    # XOR constant, but only Alice multiplies by constant
     def xor_constant(self, share_id, function_id):
         self.dictionary[function_id] = self.dictionary[share_id]
 
@@ -150,20 +154,24 @@ blood_types = {
 
 
 def blood_compatibility_bedoza(bloodtype_receiver, bloodtype_donor):
+    # Initialize parties
     dealer = Dealer()
     alice = Alice()
     bob = Bob()
 
+    # Encode receiver blood into 3 bits, and share those bits
     receiver_encoded = blood_types.get(bloodtype_receiver)
     alice.share(int(receiver_encoded[0]), bob, "xa")
     alice.share(int(receiver_encoded[1]), bob, "xb")
     alice.share(int(receiver_encoded[2]), bob, "xr")
 
+    # Encode donor blood into 3 bits, and share those bits
     donor_encoded = blood_types.get(bloodtype_donor)
     bob.share(int(donor_encoded[0]), alice, "ya")
     bob.share(int(donor_encoded[1]), alice, "yb")
     bob.share(int(donor_encoded[2]), alice, "yr")
 
+    # For code clarity, make one function for Alice's, Bob's, Dealer's actions
     def xor_constant(constant, share_id, function_id):
         alice.xor_constant(constant, share_id, function_id)
         bob.xor_constant(share_id, function_id)
@@ -173,6 +181,7 @@ def blood_compatibility_bedoza(bloodtype_receiver, bloodtype_donor):
         alice.and_wires(share_1_id, share_2_id, bob, function_id)
         bob.and_wires(function_id)
 
+    # The logic function, divided into parts - each part equals to 1 gate
     xor_constant(1, "xa", "part1")
     and_wires("part1", "ya", "part2")
     xor_constant(1, "part2", "part3")
@@ -190,7 +199,6 @@ def blood_compatibility_bedoza(bloodtype_receiver, bloodtype_donor):
 
 # Print blood compatibility for all blood types
 def print_blood_compatibility():
-    # If both functions return the same, display the results
     for blood_receiver in blood_types:
         for blood_donor in blood_types:
             print(
@@ -198,4 +206,3 @@ def print_blood_compatibility():
 
 
 print_blood_compatibility()
-
