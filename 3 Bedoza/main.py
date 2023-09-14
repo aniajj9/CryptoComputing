@@ -152,66 +152,66 @@ part_10 = dealer.xor_constant(1, part_9)
 part_11 = dealer.and_wires(part_7, part_10)
 
 result = part_11'''
-dealer = Dealer()
-alice = Alice()
-bob = Bob()
 
-# Blood 011
-alice.share(1, bob, "xa")
-alice.share(1, bob, "xb")
-alice.share(1, bob, "xr")
-
-# Blood 101
-bob.share(1, alice, "ya")
-bob.share(1, alice, "yb")
-bob.share(1, alice, "yr")
+blood_types = {
+    '0-': "000",
+    '0+': "001",
+    'A-': "100",
+    'A+': "101",
+    'B-': "010",
+    'B+': "011",
+    'AB-': "110",
+    'AB+': "111"
+}
 
 
-def xor_constant(constant, share_id, function_id):
-    alice.xor_constant(constant, share_id, function_id)
-    bob.xor_constant(share_id, function_id)
+def blood_compatibility_bedoza(bloodtype_receiver, bloodtype_donor):
+    dealer = Dealer()
+    alice = Alice()
+    bob = Bob()
+
+    receiver_encoded = blood_types.get(bloodtype_receiver)
+    alice.share(int(receiver_encoded[0]), bob, "xa")
+    alice.share(int(receiver_encoded[1]), bob, "xb")
+    alice.share(int(receiver_encoded[2]), bob, "xr")
+
+    donor_encoded = blood_types.get(bloodtype_donor)
+    bob.share(int(donor_encoded[0]), alice, "ya")
+    bob.share(int(donor_encoded[1]), alice, "yb")
+    bob.share(int(donor_encoded[2]), alice, "yr")
+
+    def xor_constant(constant, share_id, function_id):
+        alice.xor_constant(constant, share_id, function_id)
+        bob.xor_constant(share_id, function_id)
+
+    def and_wires(share_1_id, share_2_id, function_id):
+        dealer.generate_and_wires_randoms(alice, bob)
+        alice.and_wires(share_1_id, share_2_id, bob, function_id)
+        bob.and_wires(function_id)
+
+    xor_constant(1, "xa", "part1")
+    and_wires("part1", "ya", "part2")
+    xor_constant(1, "part2", "part3")
+    xor_constant(1, "xb", "part4")
+    and_wires("part4", "yb", "part5")
+    xor_constant(1, "part5", "part6")
+    and_wires("part3", "part6", "part7")
+    xor_constant(1, "xr", "part8")
+    and_wires("part8", "yr", "part9")
+    xor_constant(1, "part9", "part10")
+    and_wires("part7", "part10", "part11")
+
+    return bool(alice.dictionary["part11"] ^ bob.dictionary["part11"])
 
 
-def and_wires(share_1_id, share_2_id, function_id):
-    dealer.generate_and_wires_randoms(alice, bob)
-    alice.and_wires(share_1_id, share_2_id, bob, function_id)
-    bob.and_wires(function_id)
+# Print blood compatibility for all blood types
+def print_blood_compatibility():
+    # If both functions return the same, display the results
+    for blood_receiver in blood_types:
+        for blood_donor in blood_types:
+            print(
+                f"{blood_receiver} can receive blood from {blood_donor}: {blood_compatibility_bedoza(blood_receiver, blood_donor)}")
 
 
-xor_constant(1, "xa", "part1")
-and_wires("part1", "ya", "part2")
-xor_constant(1, "part2", "part3")
-xor_constant(1, "xb", "part4")
-and_wires("part4", "yb", "part5")
-xor_constant(1, "part5", "part6")
-and_wires("part3", "part6", "part7")
-xor_constant(1, "xr", "part8")
-and_wires("part8", "yr", "part9")
-xor_constant(1, "part9", "part10")
-and_wires("part7", "part10", "part11")
+print_blood_compatibility()
 
-print(alice.dictionary["part11"])
-print(bob.dictionary["part11"])
-
-result = alice.dictionary["part11"] ^ bob.dictionary["part11"]
-print("Result: ", result)
-
-
-'''
-dealer = Dealer()
-
-alice = Alice(1)
-bob = Bob(0)
-
-alice.share(bob, "alice_share")
-bob.share(alice, "bob_share")
-
-dealer.generate_and_wires_randoms(alice, bob)
-alice.and_wires("alice_share", "bob_share", bob, "and_wires")
-bob.and_wires("and_wires")
-
-print(alice.dictionary["alice_share"])
-print(bob.dictionary["alice_share"])
-
-print(alice.dictionary["and_wires"])
-print(bob.dictionary["and_wires"]) '''
