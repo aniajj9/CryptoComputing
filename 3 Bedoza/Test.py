@@ -7,46 +7,47 @@ class TestBloodCompatibility(unittest.TestCase):
         blood_type_table = {
     # 0- compatibility
     ('0-', '0-'): True,
-    ('0-', '0+'): True,
-    ('0-', 'A-'): True,
-    ('0-', 'A+'): True,
-    ('0-', 'B-'): True,
-    ('0-', 'B+'): True,
-    ('0-', 'AB-'): True,
-    ('0-', 'AB+'): True,
 
     # 0+ compatibility
     ('0+', '0+'): True,
-    ('0+', 'A+'): True,
-    ('0+', 'B+'): True,
-    ('0+', 'AB+'): True,
+    ('0+', '0-'): True,
 
     # A- compatibility
     ('A-', 'A-'): True,
-    ('A-', 'A+'): True,
-    ('A-', 'AB-'): True,
-    ('A-', 'AB+'): True,
+    ('A-', '0-'): True,
 
     # A+ compatibility
     ('A+', 'A+'): True,
-    ('A+', 'AB+'): True,
+    ('A+', 'A-'): True,
+    ('A+', '0+'): True,
+    ('A+', '0-'): True,
 
     # B- compatibility
     ('B-', 'B-'): True,
-    ('B-', 'B+'): True,
-    ('B-', 'AB-'): True,
-    ('B-', 'AB+'): True,
+    ('B-', '0-'): True,
 
     # B+ compatibility
     ('B+', 'B+'): True,
-    ('B+', 'AB+'): True,
+    ('B+', 'B-'): True,
+    ('B+', '0+'): True,
+    ('B+', '0-'): True,
+
 
     # AB- compatibility
+    ('AB-', '0-'): True,
+    ('AB-', 'A-'): True,
+    ('AB-', 'B-'): True,
     ('AB-', 'AB-'): True,
-    ('AB-', 'AB+'): True,
 
     # AB+ compatibility
     ('AB+', 'AB+'): True,
+    ('AB+', 'AB-'): True,
+    ('AB+', 'A+'): True,
+    ('AB+', 'A-'): True,
+    ('AB+', 'B+'): True,
+    ('AB+', 'B-'): True,
+    ('AB+', '0+'): True,
+    ('AB+', '0-'): True,
 }
 
 
