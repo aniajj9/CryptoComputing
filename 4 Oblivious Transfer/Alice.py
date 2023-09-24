@@ -5,15 +5,15 @@ class Alice(Party):
     '''sk: secret key used to create corresponding pk,
     q: prime such that 2q + 1 is also prime,
     g: generator in Zp of order q'''
-    def key_generation(self, sk, q, generator):
+    def key_generation(self, sk, q, g):
         p = 2 * q + 1
-        pk = (generator**(sk)) % p
+        pk = (g**(sk)) % p
         return pk
 
     '''r: randomness,
     q: prime such that 2q + 1 is also prime,
     g: generator in Zp of order q'''
-    def oblivious_key_generation(self, r, q, generator):
+    def oblivious_key_generation(self, r, q, g):
         return True
 
     '''sk: secret key,
