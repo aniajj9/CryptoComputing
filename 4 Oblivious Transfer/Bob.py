@@ -21,4 +21,4 @@ class Bob(Party):
         return c0, c1
 
     def send_ciphertext(self, other_party, ciphertext):
-        return
+        return True
