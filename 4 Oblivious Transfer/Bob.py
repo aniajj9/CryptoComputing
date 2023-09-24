@@ -17,7 +17,7 @@ class Bob(Party):
         else:
             M = -(m+1)
         c0 = self.square_and_multiply(g, r, p)
-        c1 = self.square_and_multiply(c0, pk, p) * M
+        c1 = self.square_and_multiply(pk, r, p) * M
         return c0, c1
 
     def send_ciphertext(self, other_party, ciphertext):
