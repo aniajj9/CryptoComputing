@@ -1,4 +1,5 @@
 from Party import Party
+from utils import modular_exponentiation
 
 class Bob(Party):
 
@@ -16,9 +17,9 @@ class Bob(Party):
             M = m + 1
         else:
             M = -(m+1)
-        c0 = self.square_and_multiply(g, r, p)
-        c1 = self.square_and_multiply(pk, r, p) * M
+        c0 = modular_exponentiation(g, r, p)
+        c1 = modular_exponentiation(pk, r, p) * M
         return c0, c1
 
     def send_ciphertext(self, other_party, ciphertext):
-        return True
+        other_party.receive_ciphertext(ciphertext)
