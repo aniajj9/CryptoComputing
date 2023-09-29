@@ -1,5 +1,4 @@
-from Alice import Alice
-from Bob import Bob
+
 
 blood_types = {
     '0-': "000",
@@ -11,3 +10,4 @@ blood_types = {
     'AB-': "110",
     'AB+': "111"
 }
+

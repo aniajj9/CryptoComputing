@@ -20,9 +20,9 @@ class TestMathFunctions(unittest.TestCase):
         self.assertEqual(x * 3 + y * 11, 1)
 
     def test_find_modulo_inverse(self):
-        self.assertEqual(find_modulo_inverse(3, 11), 4)  # 3 * 4 ≡ 1 (mod 11)
+        self.assertEqual(find_modulo_inverse(3, 11), 4) 
         self.assertEqual(find_modulo_inverse(10, 17),
-                         12)  # 10 * 12 ≡ 1 (mod 17)
+                         12)
 
     def test_generate_safe_prime(self):
         sp = generate_safe_prime(10, 50)
@@ -35,7 +35,7 @@ class TestMathFunctions(unittest.TestCase):
 
     def test_modular_exponentiation(self):
         self.assertEqual(modular_exponentiation(
-            2, 5, 13), 6)  # 2^5 ≡ 6 (mod 13)
+            2, 5, 13), 6)
 
     def test_generate_random_group_elements(self):
         q = 11
@@ -55,11 +55,25 @@ class TestAliceAndBob(unittest.TestCase):
         m = 7  # Some message
         self.alice.set_sk_gen(5)
         self.alice.key_generation()
-        print(self.alice.pk_gen)
-        c0, c1 = self.bob.encryption(m, self.r, self.alice.pk_gen)
-        print(c0, c1)
-        decrypted_m = self.alice.decryption(self.alice.sk_gen, c0, c1)
+        c0, c1 = self.bob.encryption(m, self.r, self.alice.public_keys[0])
+        decrypted_m = self.alice.decrypt(self.alice.sk_gen, c0, c1)
         self.assertEqual(decrypted_m, m)
+    
+    def test_oblivious_key_generation(self):
+        self.alice.set_sk_gen(5)
+        self.alice.key_generation()
+        self.alice.single_oblivious_key_generation(self.r)
+        self.assertEqual(self.alice.public_keys[0], 9)
+    
+    def test_interaction(self):
+        self.alice.choose_blood_type()
+        self.bob.choose_blood_type()
+        self.alice.generate_keys()
+        self.alice.send_public_keys(self.bob)
+        self.bob.initialize_r_encryption()
+        self.bob.encrypt_blood_types()
+        self.bob.send_ciphertexts(self.alice)
+        self.alice.decrypt_blood_compatibility()
 
 
 if __name__ == '__main__':

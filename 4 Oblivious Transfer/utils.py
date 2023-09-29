@@ -115,3 +115,9 @@ q: prime such that 2q + 1 is also prime,
 def generate_random_group_elements(q):
     p = 2 * q + 1
     return random.randint(1, p - 1)
+
+
+def are_bits_compatible(number1, number2, bit_position) -> bool:
+    bit1 = (number1 >> bit_position) & 1
+    bit2 = (number2 >> bit_position) & 1
+    return bit1 == bit2 or not (number1 & (1 << bit_position))
