@@ -40,6 +40,7 @@ output: x, y
 
 
 def extended_euclidian_algorithm(a, p):
+    print(a, p)
     if a == 0:
         x = 0
         y = 0

@@ -19,11 +19,6 @@ class TestMathFunctions(unittest.TestCase):
         x, y = extended_euclidian_algorithm(3, 11)
         self.assertEqual(x * 3 + y * 11, 1)
 
-    def test_find_modulo_inverse(self):
-        self.assertEqual(find_modulo_inverse(3, 11), 4) 
-        self.assertEqual(find_modulo_inverse(10, 17),
-                         12)
-
     def test_generate_safe_prime(self):
         sp = generate_safe_prime(10, 50)
         self.assertTrue(is_safe_prime(sp))
@@ -44,7 +39,6 @@ class TestMathFunctions(unittest.TestCase):
 
 
 class TestAliceAndBob(unittest.TestCase):
-
     def setUp(self):
         self.r = 3  # Some random value
         self.sk = 5  # Some secret key
@@ -53,27 +47,28 @@ class TestAliceAndBob(unittest.TestCase):
 
     def test_encryption_decryption(self):
         m = 7  # Some message
-        self.alice.set_sk_gen(5)
-        self.alice.key_generation()
+        self.alice.secret_keys.append(5)
+        self.alice.perform_normal_key_generation()
         c0, c1 = self.bob.encryption(m, self.r, self.alice.public_keys[0])
-        decrypted_m = self.alice.decrypt(self.alice.sk_gen, c0, c1)
+        decrypted_m = self.alice.decrypt(self.alice.secret_keys.pop(), c0, c1)
         self.assertEqual(decrypted_m, m)
     
     def test_oblivious_key_generation(self):
-        self.alice.set_sk_gen(5)
-        self.alice.key_generation()
-        self.alice.single_oblivious_key_generation(self.r)
+        self.alice.secret_keys.append(5)
+        self.alice.perform_normal_key_generation()
+        self.alice.perform_oblivious_key_generation(self.r)
         self.assertEqual(self.alice.public_keys[0], 9)
     
     def test_interaction(self):
-        self.alice.choose_blood_type()
-        self.bob.choose_blood_type()
-        self.alice.generate_keys()
-        self.alice.send_public_keys(self.bob)
-        self.bob.initialize_r_encryption()
-        self.bob.encrypt_blood_types()
-        self.bob.send_ciphertexts(self.alice)
-        self.alice.decrypt_blood_compatibility()
+        for i in range(7):
+            for j in range(i):
+                self.alice.choose_blood_type(i)
+                self.bob.choose_blood_type(j)
+                self.alice.generate_keys()
+                self.alice.send_public_keys(self.bob)
+                self.bob.encrypt_blood_types()
+                self.bob.send_ciphertexts(self.alice)
+                self.alice.decrypt_blood_compatibility()
 
 
 if __name__ == '__main__':

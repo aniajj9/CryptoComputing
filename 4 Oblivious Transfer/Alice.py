@@ -7,21 +7,16 @@ from blood_types import blood_types_encoding
 class Alice(Party):
     ciphertexts = []
     plaintext = 0
-    sk_gen = 0
-    sk_ogen = []
+    secret_keys = []
 
-    def choose_blood_type(self):
-        self.blood_type = blood_types_encoding[random.randint(0, 7)]
-
-    def generate_keys(self):
-        self.set_sk_gen(random.randint(0, self.q))
-        self.key_generation()
-
+    def generate_keys(self, secret_keys=[]):
+        self.initialize_secret_keys(secret_keys)
         for i in range(0, 7):
-            self.sk_ogen.append(random.randint(0, self.q))
+            if i != self.blood_type:
+                self.perform_oblivious_key_generation(self.secret_keys[i])
+            else:
+                self.perform_normal_key_generation()
 
-        self.multiple_oblivious_key_generation(7)
-    
     def receive_ciphertexts(self, ciphertexts):
         self.ciphertexts = ciphertexts
 
@@ -29,29 +24,25 @@ class Alice(Party):
         other_party.receive_public_keys(self.public_keys)
 
     def decrypt_blood_compatibility(self):
-        self.decrypt(self.sk_gen, self.ciphertexts[self.blood_type][0], self.ciphertexts[self.blood_type][1])
+        self.decrypt(
+            self.secret_keys[self.blood_type], self.ciphertexts[self.blood_type][0], self.ciphertexts[self.blood_type][1])
 
     '''sk: secret key used to create corresponding pk,
     q: prime such that 2q + 1 is also prime,
     g: generator in Zp of order q'''
 
-    def key_generation(self):
-        self.public_keys.append((self.g**(self.sk_gen)) % self.p)
+    def perform_normal_key_generation(self):
+        self.public_keys.append(
+            (self.g**(self.secret_keys[self.blood_type])) % self.p)
 
     '''r: randomness,
     q: prime such that 2q + 1 is also prime,
     g: generator in Zp of order q,
     '''
-    def single_oblivious_key_generation(self, r):
+
+    def perform_oblivious_key_generation(self, r):
         h = (r ** 2) % self.p
         self.public_keys.append(h)
-
-    def multiple_oblivious_key_generation(self, n):
-        for i in range(0, n):
-            self.single_oblivious_key_generation(self.sk_ogen[i])
-
-    def set_sk_gen(self, sk):
-        self.sk_gen = sk
 
     '''sk: secret key,
     c0: first part of ciphertext,
@@ -64,3 +55,11 @@ class Alice(Party):
         value = find_modulo_inverse(c0**(sk), self.p)
         M = (c1 * value) % self.p
         return M - 1 if M <= self.q else -M - 1
+
+    def initialize_secret_keys(self, secret_keys=[]):
+        if secret_keys != []:
+            self.secret_keys = secret_keys
+            return
+
+        for i in range(len(blood_types_encoding)):
+            self.secret_keys.append(random.randint(1, self.q - 1))
