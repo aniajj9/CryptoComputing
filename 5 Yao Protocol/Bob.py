@@ -13,13 +13,13 @@ class Bob(Party):
     keys = []  # keys.append((key0, key1))
     F_values = []  # F_values.append((i, C0, C1, C2, C3))
 
-    def generate_key_pair():
+    def generate_key_pair(self):
         return (secrets.token_bytes(16), secrets.token_bytes(16))
 
     def garbling_boolean_compatibility(self, T=11, n=6, leq_gates=9):
         def compute_garbled_gate(i, a, b, C, leq=False):
             C[str(a) + str(b)] = get_sha256_digest(self.keys[self.left_indexes[i]][a] +
-                                                   self.keys[self.right_indexes[i]][b], i) ^ (self.keys[i][a <= b if leq else a * b] + b'\x00' * 128)
+                                                   self.keys[self.right_indexes[i]][b]) ^ (self.keys[i][a <= b if leq else a * b] + b'\x00' * 128)
 
         self.keys.append((0, 0))  # TODO: REMOVE
         for i in range(1, T+1):  # Generate keys for each wire
@@ -53,3 +53,19 @@ class Bob(Party):
         
     def decode(self):
         pass
+
+    # ??? is it good?
+    def evaluate(self, T=11, n=6):
+        result = []
+        for i in range(n, T+1):
+            C = self.F_values[i] # TODO: Handle permutation?
+            for entry in C:
+                result = get_sha256_digest(self.keys[self.left_indexes[i]][0] +
+                                                   self.keys[self.right_indexes[i]][1]) ^ entry
+                if result[-128:] ==  bytes([0] * 128):
+                    result.append((i, entry)) # TODO: not checking for uniqueness
+                    break
+                return Exception(f"No solution for {i}'th run")
+        return result
+
+
