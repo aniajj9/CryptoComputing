@@ -62,8 +62,8 @@ class TestAliceAndBob(unittest.TestCase):
     def test_interaction(self):
         for i in range(7):
             for j in range(i):
-                self.alice.choose_blood_type(i)
-                self.bob.choose_blood_type(j)
+                self.alice.choose(i)
+                self.bob.choose(j)
                 self.alice.generate_keys()
                 self.alice.send_public_keys(self.bob)
                 self.bob.encrypt_blood_types()

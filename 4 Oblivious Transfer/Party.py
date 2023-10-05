@@ -9,10 +9,10 @@ class Party:
         self.g = g
         self.public_keys = []
         self.ciphertexts = []
-        self.blood_type = -1
-    
-    def choose_blood_type(self, blood_type=-1):
-        if(blood_type != -1):
-            self.blood_type = blood_type
+        self.chosen_input = -1
+
+    def choose(self, chosen_input=-1, posssibilities=8):
+        if (chosen_input != -1):
+            self.chosen_input = chosen_input
         else:
-            self.blood_type = random.randint(0, 7)
+            self.chosen_input = random.randint(0, posssibilities - 1)

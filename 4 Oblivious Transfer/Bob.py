@@ -7,20 +7,19 @@ from utils import modular_exponentiation
 class Bob(Party):
     r_encryption = []
 
-    def encrypt_blood_types(self, r_encryption=[]):
-        encrypted_blood_types = []
+    def encrypt_blood_types(self, r_encryption=[], n=7, encoding=blood_types_encoding, f=logic_compatibility):
+        encrypted = []
         self.initialize_r_encryption(r_encryption)
-        for i in range(7):
+        for i in range(n):
             pk = self.public_keys[i]
             r = self.r_encryption[i]
-            b = blood_types_encoding[i]
-            blood_type_table_result = logic_compatibility(
-                blood_types_encoding[self.blood_type], b)
+            b = encoding[i]
+            result = f(encoding[self.chosen_input], b)
 
-            encryption = self.encryption(blood_type_table_result, r, pk)
-            encrypted_blood_types.append(encryption)
+            encryption = self.encryption(result, r, pk)
+            encrypted.append(encryption)
 
-        self.ciphertexts = encrypted_blood_types
+        self.ciphertexts = encrypted
 
     def send_ciphertexts(self, other_party):
         other_party.receive_ciphertexts(self.ciphertexts)

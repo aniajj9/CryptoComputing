@@ -9,10 +9,10 @@ class Alice(Party):
     plaintext = 0
     secret_keys = []
 
-    def generate_keys(self, secret_keys=[]):
+    def generate_keys(self, secret_keys=[], n = 7):
         self.initialize_secret_keys(secret_keys)
-        for i in range(0, 7):
-            if i != self.blood_type:
+        for i in range(0, n):
+            if i != self.chosen_input:
                 self.perform_oblivious_key_generation(self.secret_keys[i])
             else:
                 self.perform_normal_key_generation()
@@ -25,7 +25,7 @@ class Alice(Party):
 
     def decrypt_blood_compatibility(self):
         self.decrypt(
-            self.secret_keys[self.blood_type], self.ciphertexts[self.blood_type][0], self.ciphertexts[self.blood_type][1])
+            self.secret_keys[self.chosen_input], self.ciphertexts[self.chosen_input][0], self.ciphertexts[self.chosen_input][1])
 
     '''sk: secret key used to create corresponding pk,
     q: prime such that 2q + 1 is also prime,
@@ -33,7 +33,7 @@ class Alice(Party):
 
     def perform_normal_key_generation(self):
         self.public_keys.append(
-            (self.g**(self.secret_keys[self.blood_type])) % self.p)
+            (self.g**(self.secret_keys[self.chosen_input])) % self.p)
 
     '''r: randomness,
     q: prime such that 2q + 1 is also prime,
