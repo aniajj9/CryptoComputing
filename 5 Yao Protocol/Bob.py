@@ -9,7 +9,7 @@ class Bob(Party):
     # making R(i) for blood type circuit
     right_indexes = {7: 2, 8: 4, 9: 6, 10: 8, 11: 10}
     e_value = []  # e_value.append((key0, key1))
-    d_value = []
+    d_value = None
     keys = []  # keys.append((key0, key1))
     F_values = []  # F_values.append((i, C0, C1, C2, C3))
 
@@ -27,7 +27,7 @@ class Bob(Party):
             if i <= n:  # Input
                 self.e_value.append(self.keys[i])
             elif i == T:
-                self.d_value.append(self.keys[i])
+                d_value = self.keys[i]
         for i in range(n + 1, T + 1):  # Compute on wires
             C = {}  # { 00: ..., 01: ..., 10: ..., 11: ...}
             if i <= leq_gates:  # use leq
@@ -50,9 +50,14 @@ class Bob(Party):
         for i in range(0 if even else 1, len(y), 2): # Even indices for Bob
             encoded_y.append(self.keys[i][y[i]])
         return encoded_y
-        
-    def decode(self):
-        pass
+
+    # ??? is it good?
+    def decode(self, Z):
+        if Z == self.d_value[0]:
+            return 0
+        elif Z == self.d_value[1]:
+            return 1
+        return Exception(f"Decoding failed. Z: {Z}, d values: {self.d_value}")
 
     # ??? is it good?
     def evaluate(self, T=11, n=6):
