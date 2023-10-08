@@ -86,7 +86,7 @@ class TestAliceAndBobYao(unittest.TestCase):
         self.bob = Yao_Bob()
 
     def test_interaction(self):
-        self.alice.F_values = self.bob.garbling_boolean_compatibility()
+        self.alice.F_values = self.bob.garbling()
 
         run_Yao_OT(self.alice, self.bob)
 

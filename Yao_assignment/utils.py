@@ -16,6 +16,11 @@ encoding of blood types:
 
 blood_types_encoding = [0b000, 0b001, 0b100, 0b101, 0b010, 0b011, 0b110, 0b111]
 
+# making L(i) for blood type circuit
+left_indexes = {7: 1, 8: 3, 9: 5, 10: 7, 11: 9}
+# making R(i) for blood type circuit
+right_indexes = {7: 2, 8: 4, 9: 6, 10: 8, 11: 10}
+
 
 '''
 blood_type_receiver: blood type of the receiver

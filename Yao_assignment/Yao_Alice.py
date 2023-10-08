@@ -1,15 +1,15 @@
 from utils import get_sha256_digest
 from Yao_Party import Yao_Party
+from utils import left_indexes, right_indexes
 
 
 class Yao_Alice(Yao_Party):
-    garbled_x = []
-    garbled_y = []
-    K_values = []  # store keys used for circuit evaluation, must order keys correctly
-    F_values = []  # store garbled gates
-
     def __init__(self, input=[0, 1, 0]):
         self.input = input
+        self.garbled_x = []
+        self.garbled_y = []
+        self.K_values = []  # store keys used for circuit evaluation, must order keys correctly
+        self.F_values = []  # store garbled gates
 
     def evaluate(self, T=11, n=7):
         # To make the keys in correct order
@@ -21,8 +21,8 @@ class Yao_Alice(Yao_Party):
         for i in range(n, T+1):
             C = self.F_values[i]
             for entry in C:
-                result = get_sha256_digest(self.K_values[self.left_indexes[i]][0] +
-                                           self.K_values[self.right_indexes[i]][1], i) ^ entry
+                result = get_sha256_digest(self.K_values[left_indexes[i]][0] +
+                                           self.K_values[right_indexes[i]][1], i) ^ entry
                 if result[-128:] == bytes([0] * 128):
                     print("zeros")
                     # TODO: not checking for uniqueness

@@ -2,6 +2,7 @@ import secrets
 from Yao_Party import Yao_Party
 import hashlib
 import random
+from utils import left_indexes, right_indexes
 
 
 class Yao_Bob(Yao_Party):
@@ -15,54 +16,58 @@ class Yao_Bob(Yao_Party):
     def __init__(self, y=[0, 1, 0]):
         self.y = y
 
-    def garbling_boolean_compatibility(self, T=11, n=6, leq_gates=9):
+    def garbling(self, T=11, n=6, leq_gates=9):
         def generate_key_pair():  # TODO: add randomness
             return (random.randint(0, 2 ^ 128), random.randint(0, 2 ^ 128))
             # return (secrets.token_bytes(16), secrets.token_bytes(16))
 
-        def compute_garbled_gate(i, a, b, C, leq=False):
-            sha256_hash = hashlib.sha256()
+        def compute_garbled_gate(self, i, a, b, C, leq=False):
+            # Concatenate the keys
+            key = self.keys[left_indexes[i]][a] + \
+                self.keys[right_indexes[i]][b]
 
-            # Update the hash object with the data
-            key = self.keys[self.left_indexes[i]][a] + \
-                self.keys[self.right_indexes[i]][b]
-            sha256_hash.update(key.to_bytes(2, 'big'))
-            hash_bytes = sha256_hash.digest()
+            # Calculate hash of the key
+            sha256_hash = hashlib.sha256(key.to_bytes(
+                (key.bit_length() + 7) // 8, 'big')).digest()
 
-            # Convert bytes to integers
-            hash_int = int.from_bytes(hash_bytes, byteorder='big')
+            # Convert hash bytes to integer
+            hash_int = int.from_bytes(sha256_hash, byteorder='big')
+
+            # Get the key integer based on the indices and leq flag
             key_int = self.keys[i][a <= b if leq else a * b]
 
-            # Perform the XOR operation on integers
-            result_int = hash_int ^ key_int
+            # Perform the XOR operation on integers and convert the result back to bytes
+            result_bytes = (hash_int ^ key_int).to_bytes(
+                (hash_int.bit_length() + 7) // 8, byteorder='big')
 
-            # Convert the result back to bytes
-            result_bytes = result_int.to_bytes(
-                (result_int.bit_length() + 7) // 8, byteorder='big')
+            # Update the dictionary C with the result bytes
+            C[f'{a}{b}'] = result_bytes
 
-            C[str(a) + str(b)] = result_bytes
+        def generate_wire_keys(self, T, n):
+            for i in range(1, T+1):
+                self.keys.append(generate_key_pair())
+                if i <= n:
+                    self.e_value.append(self.keys[i])
+                elif i == T:
+                    self.d_value = self.keys[i]
+
+        def compute_on_wires(self, T, n):
+            for i in range(n+1, T+1):
+                C = {}
+                if i <= leq_gates:  # use leq
+                    for a in range(2):
+                        for b in range(2):
+                            compute_garbled_gate(self, i, a, b, C, leq=True)
+                else:
+                    for a in range(2):  # use AND
+                        for b in range(2):
+                            compute_garbled_gate(self, i, a, b, C)
+                # TODO: Permutation of C
+                self.F_values.append(C)
 
         self.keys.append((0, 0))  # TODO: REMOVE
-        for i in range(1, T+1):  # Generate keys for each wire
-            self.keys.append(generate_key_pair())
-            if i <= n:  # Input
-                self.e_value.append(self.keys[i])
-            elif i == T:
-                self.d_value = self.keys[i]
-        for i in range(n + 1, T + 1):  # Compute on wires
-            C = {}  # { 00: ..., 01: ..., 10: ..., 11: ...}
-            if i <= leq_gates:  # use leq
-                for a in range(2):
-                    for b in range(2):
-                        compute_garbled_gate(i, a, b, C, leq=True)
-
-            else:  # use AND
-                for a in range(2):
-                    for b in range(2):
-                        compute_garbled_gate(i, a, b, C)
-
-            # TODO: Permutation of C
-            self.F_values.append(C)
+        generate_wire_keys(self, T, n)
+        compute_on_wires(self, T, n)
 
         return self.F_values
 

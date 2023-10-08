@@ -18,12 +18,12 @@ class OT_Bob(OT_Party):
 
         if is_tuple_of_bytes(keys):
             keys = tuple_of_bytes_to_ints(keys)
-    
 
         for i in range(len(keys)):
             pk = self.public_keys[i]
             r = self.r_encryption[i]
             encryption = self.encryption(keys[i], r, pk)
+            print(f"Encryption: {encryption}")
             self.ciphertexts.append(encryption)
 
     ######################### Encryption #########################
