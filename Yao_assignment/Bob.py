@@ -1,5 +1,5 @@
 import secrets
-from Yao_assignment.ObliviousTransfer.Yao_OT import run_Yao_OT
+from Yao_assignment.ObliviousTransfer.OT import run_OT
 import hashlib
 
 

@@ -2,9 +2,53 @@ import math
 import random
 import hashlib
 
+'''
+encoding of blood types:
+0: O-
+1: O+
+2: A-
+3: A+
+4: B-
+5: B+
+6: AB-
+7: AB+
+'''
+
+blood_types_encoding = [0b000, 0b001, 0b100, 0b101, 0b010, 0b011, 0b110, 0b111]
+
+# making L(i) for blood type circuit
+left_indexes = {7: 1, 8: 3, 9: 5, 10: 7, 11: 9}
+# making R(i) for blood type circuit
+right_indexes = {7: 2, 8: 4, 9: 6, 10: 8, 11: 10}
+
+
+'''
+blood_type_receiver: blood type of the receiver
+blood_type_donor: blood type of the donor
+computes the logic compatibility between the two blood types
+'''
+
+
+def logic_compatibility(blood_type_receiver, blood_type_donor) -> bool:
+
+    # Sub-function that checks if two binary numbers are compatible at a bit specified by a bit position
+    # Returns true if:
+    #   - The two bits are the same
+    #   or
+    #   - The bit in the first number is 0
+    def are_bits_compatible(number1, number2, bit_position) -> bool:
+        bit1 = (number1 >> bit_position) & 1
+        bit2 = (number2 >> bit_position) & 1
+        return bit1 == bit2 or not (number1 & (1 << bit_position))
+
+    return all(
+        are_bits_compatible(blood_type_receiver, blood_type_donor, bit_position) for bit_position in
+        range(3))
+
 
 def get_sha256_digest(message):
     return hashlib.sha256(message).digest()
+
 
 '''n: number we want to check if is prime'''
 
@@ -44,7 +88,6 @@ output: x, y
 
 
 def extended_euclidian_algorithm(a, p):
-    print(a, p)
     if a == 0:
         x = 0
         y = 0
@@ -122,7 +165,26 @@ def generate_random_group_elements(q):
     return random.randint(1, p - 1)
 
 
+'''
+number1: first number to check
+number2: second number to check
+bit_position: position of the bit to check
+'''
+
+
 def are_bits_compatible(number1, number2, bit_position) -> bool:
     bit1 = (number1 >> bit_position) & 1
     bit2 = (number2 >> bit_position) & 1
     return bit1 == bit2 or not (number1 & (1 << bit_position))
+
+
+def is_tuple_of_bytes(var):
+    if not isinstance(var, tuple):
+        return False
+    return all(isinstance(item, bytes) for item in var)
+
+
+def tuple_of_bytes_to_ints(var):
+    if not is_tuple_of_bytes(var):
+        raise Exception("Input is not a tuple of bytes")
+    return tuple(int.from_bytes(item, 'big') for item in var)
