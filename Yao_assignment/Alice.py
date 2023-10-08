@@ -31,19 +31,27 @@ class Alice(Party):
 
         print("Alice k values")
         print(self.K_values)
-
-        for i in range(1, T+1-n):
-            C = self.F_values[i]
+        self.final_results = []
+        for i in range(1, 6):
+            print("index i")
+            print(i)
+            C = self.F_values[i-1]
             results = []
+            isFound = False
             for C_key, entry in C.items():
 
                 sha256_hash = hashlib.sha256()
 
                 # Update the hash object with the data
 
-                key = self.K_values[self.left_indexes[i+n]] + self.K_values[self.right_indexes[i+n]]
+                print("error")
+                print(i+n)
+                print("len keys")
+                print(len(self.K_values))
+                key = self.K_values[self.left_indexes[i+n]-1] + self.K_values[self.right_indexes[i+n]-1]
                 print(len(key))
                 print(len(entry))
+                print(key)
                 sha256_hash.update(key)
                 hash_bytes = sha256_hash.digest()
 
@@ -75,12 +83,9 @@ class Alice(Party):
                 if result[-16:] == b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00':
                     print("zeros!!!")
                     # TODO: not checking for uniqueness
-                    results.append((i, entry))
-            if len(results) == 1:
-                self.K_values.append(results[0])
-            elif len(results) == 0:
+                    self.K_values.append(result[:16])
+                    isFound = True
+                    break
+            if not isFound:
                 raise Exception(f"No solution for {i}'th run")
-            else:
-                self.K_values.append(results[0])
-                #raise Exception(f"Too many solutions for {i}'th run")
         return results[-1][0]

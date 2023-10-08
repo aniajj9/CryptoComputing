@@ -29,8 +29,8 @@ class Bob(Party):
             random.seed(seed_value)
 
             # Generate random bytes
-            #return bytes([random.randint(0, 255) for _ in range(8)]), bytes([random.randint(0, 255) for _ in range(8)])
-            return b'\x01' * 16, b'\x01' * 16
+            return bytes([random.randint(0, 255) for _ in range(16)]), bytes([random.randint(0, 255) for _ in range(16)])
+
 
         def compute_garbled_gate(i, a, b, C, leq=False):
             sha256_hash = hashlib.sha256()
@@ -80,7 +80,7 @@ class Bob(Party):
                 self.d_value = self.keys[i]
         for i in range(n + 1, T + 1):  # Compute on wires
             C = {}  # { 00: ..., 01: ..., 10: ..., 11: ...}
-            if i <= leq_gates:  # use leq
+            if i in {7, 8, 9}:  # use leq
                 for a in range(2):
                     for b in range(2):
                         compute_garbled_gate(i, a, b, C, leq=True)
@@ -88,7 +88,7 @@ class Bob(Party):
             else:  # use AND
                 for a in range(2):
                     for b in range(2):
-                        compute_garbled_gate(i, a, b, C)
+                        compute_garbled_gate(i, a, b, C, leq = False)
 
             # TODO: Permutation of C
             self.F_values.append(C)
