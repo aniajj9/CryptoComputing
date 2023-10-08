@@ -2,6 +2,7 @@ import secrets
 from utils import get_sha256_digest
 from Party import Party
 import hashlib
+import random
 
 
 class Bob(Party):
@@ -16,28 +17,39 @@ class Bob(Party):
         fifth_keys = self.keys[5]
 
         alice_input = alice.get_input()
-        print(first_keys[alice_input[0]])
-        print(third_keys[alice_input[1]])
-        print(fifth_keys[alice_input[2]])
 
         alice.set_Bobs_keys([first_keys[alice_input[0]], third_keys[alice_input[1]], fifth_keys[alice_input[2]]])
 
 
     def garbling_boolean_compatibility(self, alice, T=11, n=6, leq_gates=9):
         def generate_key_pair():  # TODO: add randomness
-            return (secrets.token_bytes(8), secrets.token_bytes(8))
+            #return (secrets.token_bytes(8), secrets.token_bytes(8))
+            # Set a fixed seed (change the value to your desired seed)
+            seed_value = 42
+            random.seed(seed_value)
+
+            # Generate random bytes
+            #return bytes([random.randint(0, 255) for _ in range(8)]), bytes([random.randint(0, 255) for _ in range(8)])
+            return b'\x01' * 16, b'\x01' * 16
 
         def compute_garbled_gate(i, a, b, C, leq=False):
             sha256_hash = hashlib.sha256()
 
             # Update the hash object with the data
-            key = self.keys[self.left_indexes[i]][a] + self.keys[self.right_indexes[i]][b] + b'\x00' * 16
+            key = self.keys[self.left_indexes[i]][a] + self.keys[self.right_indexes[i]][b]
             sha256_hash.update(key)
             hash_bytes = sha256_hash.digest()
 
+            assert len(hash_bytes) == 32
+
+
+
+            key_eval = self.keys[i][a <= b if leq else a * b] + b'\x00' * 16
+
+
             # Convert bytes to integers
             hash_int = int.from_bytes(hash_bytes, byteorder='big')
-            key_int = int.from_bytes(self.keys[i][a <= b if leq else a * b], byteorder='big')
+            key_int = int.from_bytes(key_eval, byteorder='big')
 
             # Perform the XOR operation on integers
             result_int = hash_int ^ key_int
@@ -45,9 +57,19 @@ class Bob(Party):
             # Convert the result back to bytes
             result_bytes = result_int.to_bytes((result_int.bit_length() + 7) // 8, byteorder='big')
 
-
-
             C[str(a) + str(b)] = result_bytes
+
+            print("---BOB---")
+            print(i)
+            print("zeros key")
+            print(key_eval)
+            print("L R")
+            print(key)
+            print("garbled L R")
+            print(hash_bytes)
+            print(f"C {a}, {b}")
+            print(result_bytes)
+
 
         self.keys.append((0, 0))  # TODO: REMOVE
         for i in range(1, T+1):  # Generate keys for each wire
@@ -73,6 +95,8 @@ class Bob(Party):
 
         alice.set_f_values(self.F_values)
 
+        print("Bob keys")
+        print(self.keys)
         return (self.F_values, self.e_value)
 
     def encoding(self, alice, y=[0,0,1], even=True):  # only used for Bob

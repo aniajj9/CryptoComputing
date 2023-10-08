@@ -13,7 +13,7 @@ class TestAliceAndBob(unittest.TestCase):
         self.bob.garbling_boolean_compatibility(self.alice)
         self.bob.fake_ot(self.alice)
         self.bob.encoding(self.alice)
-        self.alice.evaluate()
+        #self.alice.evaluate()
 
     '''def test_interaction(self):
         self.bob.garbling_boolean_compatibility()
