@@ -29,6 +29,8 @@ for i in range(len(blood_types_encoding)):
             correct.append(
                 f"same vals for {blood_types_encoding_arrays[i]}, {blood_types_encoding_arrays[j]}: logic {logic_result}, protocol: {result}")
 
+print("Different values for: ")
 print(exceptions)
 print("---------------")
+print("Same values for: ")
 print(correct)

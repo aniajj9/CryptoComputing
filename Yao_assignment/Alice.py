@@ -12,6 +12,11 @@ class Alice(Party):
     def __init__(self, input_bits):
         self.final_results = None
         self.input = input_bits
+        self.F_values = []
+        self.garbled_x = []
+        self.X_values = []
+        self.Y_values = []
+        self.K_values = []
 
     def set_X_values(self, keys):
         self.X_values = keys
@@ -49,12 +54,12 @@ class Alice(Party):
                 result = result_int.to_bytes((result_int.bit_length() + 7) // 8, byteorder='big')
                 # Check if result ends in 0s:
                 if result[-16:] == b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00':
-                    print("zeros!!!")
+                    #print("zeros!!!")
                     results.append(result[:16])
             # Check for uniqueness
             if len(results) == 1:
                 self.K_values.append(results[0])
-                print(f"Unique solution FOUND for {i}'th run :) :) :)")
+                #print(f"Unique solution FOUND for {i}'th run :) :) :)")
             elif len(results) == 0:
                 raise Exception(f"No solution for {i}'th run")
             else:

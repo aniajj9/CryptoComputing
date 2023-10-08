@@ -11,6 +11,11 @@ class Bob(Party):
 
     def __init__(self, input_bits):
         self.input = input_bits
+        self.F_values = []
+        self.e_value = [(0, 0)]  # append with dummy, since in notes we start notation at 1, and in python at 0
+        self.d_value = None
+        self.keys = [(0, 0)]  # append with dummy, since in notes we start notation at 1, and in python at 0
+        self.Z_value = 0
 
     # Fake OT (send values straightforward) for debugging
     def fake_ot(self, alice):
