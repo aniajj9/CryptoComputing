@@ -1,5 +1,5 @@
-from Alice_OT import Alice_OT
-from Bob_OT import Bob_OT
+from Yao_assignment.ObliviousTransfer.Alice_OT import Alice_OT
+from Yao_assignment.ObliviousTransfer.Bob_OT import Bob_OT
 
 
 def run_OT(x, y, n=1, f=lambda x: x, encoding=None, alice=None, bob=None):
@@ -13,7 +13,7 @@ def run_OT(x, y, n=1, f=lambda x: x, encoding=None, alice=None, bob=None):
         bob = Bob_OT()
 
     alice.choose(x)
-    print(alice.chosen_input)
+    #print(alice.chosen_input)
     bob.choose(y)
     alice.generate_keys()
     alice.send_public_keys(bob)

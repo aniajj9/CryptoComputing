@@ -17,6 +17,7 @@ def protocol(alice_values, bob_values):
             bob = Bob(bob_values)
             bob.garbling_boolean_compatibility(alice)
             bob.fake_ot(alice)
+            #bob.yao_ot(alice)
             bob.encoding(alice)
             alice.evaluate()
             alice.send_Z_to_Bob(bob)

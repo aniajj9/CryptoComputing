@@ -1,5 +1,5 @@
 import unittest
-from Alice_OT import Alice_OT
+from Yao_assignment.ObliviousTransfer.Alice_OT import Alice_OT
 from Bob_OT import Bob_OT
 from utils import is_prime, is_safe_prime, extended_euclidian_algorithm, generate_safe_prime, generate_generator, modular_exponentiation, generate_random_group_elements
 from OT import run_OT

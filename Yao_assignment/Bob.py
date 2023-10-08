@@ -1,5 +1,5 @@
 import secrets
-from Party import Party
+from Yao_assignment.ObliviousTransfer.Yao_OT import run_Yao_OT
 import hashlib
 
 
@@ -26,6 +26,12 @@ class Bob:
 
         alice_input = alice.get_input()
         alice.set_X_values([first_keys[alice_input[0]], third_keys[alice_input[1]], fifth_keys[alice_input[2]]])
+
+    # Oblivious Transfer for Yao protocol
+    '''
+    def yao_ot(self, alice):
+        run_Yao_OT(alice, self)
+    '''
 
     # Compute value for gate
     # i - id of wire

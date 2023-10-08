@@ -1,6 +1,6 @@
 import random
 from blood_types import logic_compatibility, blood_types_encoding
-from Party_OT import Party
+from Yao_assignment.ObliviousTransfer.Party_OT import Party
 from utils import modular_exponentiation
 
 

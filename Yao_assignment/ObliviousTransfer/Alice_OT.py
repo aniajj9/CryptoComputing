@@ -1,7 +1,7 @@
 import random
-from Party_OT import Party
-from utils import find_modulo_inverse
-from blood_types import blood_types_encoding
+from Yao_assignment.ObliviousTransfer.Party_OT import Party
+from Yao_assignment.utils import find_modulo_inverse
+from Yao_assignment.blood_types import blood_types_encoding
 
 
 class Alice_OT(Party):
