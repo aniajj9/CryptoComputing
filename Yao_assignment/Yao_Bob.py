@@ -6,15 +6,15 @@ from utils import left_indexes, right_indexes
 
 
 class Yao_Bob(Yao_Party):
-    e_value = []  # e_value.append((key0, key1))
-    d_value = None
-    keys = []  # keys.append((key0, key1))
-    Z_value = 0
-    garbled_y = []
-    y = []
 
     def __init__(self, y=[0, 1, 0]):
         self.y = y
+        self.garbled_y = []
+        self.keys = []
+        self.e_value = []
+        self.d_value = None
+        self.F_values = []
+        self.F_values.append((0, 0, 0, 0))
 
     def garbling(self, T=11, n=6, leq_gates=9):
         def generate_key_pair():  # TODO: add randomness

@@ -41,7 +41,7 @@ class OT_Bob(OT_Party):
         else:
             M = - (m + 1)
         c0 = modular_exponentiation(self.g, r, self.p)
-        c1 = modular_exponentiation(pk, r, self.p) * M
+        c1 = modular_exponentiation(pk, r, self.p) * M % self.p
         return c0, c1
 
     def initialize_r_encryption(self, n=2):
