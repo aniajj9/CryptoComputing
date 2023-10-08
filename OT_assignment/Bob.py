@@ -7,7 +7,7 @@ from utils import modular_exponentiation
 class Bob(Party):
     r_encryption = []
 
-    def encrypt_blood_types(self, r_encryption=[], n=7, encoding=blood_types_encoding, f=logic_compatibility):
+    def encrypt_inputs(self, r_encryption=[], n=7, encoding=blood_types_encoding, f=logic_compatibility):
         encrypted = []
         self.initialize_r_encryption(r_encryption)
         for i in range(n):

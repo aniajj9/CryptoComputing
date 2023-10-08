@@ -23,8 +23,8 @@ class Alice(Party):
     def send_public_keys(self, other_party):
         other_party.receive_public_keys(self.public_keys)
 
-    def decrypt_blood_compatibility(self):
-        self.decrypt(
+    def decrypt_output(self):
+        return self.decrypt(
             self.secret_keys[self.chosen_input], self.ciphertexts[self.chosen_input][0], self.ciphertexts[self.chosen_input][1])
 
     '''sk: secret key used to create corresponding pk,

@@ -3,7 +3,7 @@ import random
 
 
 class Party:
-    def __init__(self, q, g):
+    def __init__(self, q=11, g=2):
         self.q = q
         self.p = self.q * 2 + 1
         self.g = g

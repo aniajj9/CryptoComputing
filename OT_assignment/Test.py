@@ -1,8 +1,9 @@
 import unittest
 from Alice import Alice
 from Bob import Bob
-from utils import is_prime, is_safe_prime, extended_euclidian_algorithm, find_modulo_inverse, generate_safe_prime, generate_generator, modular_exponentiation, generate_random_group_elements
-
+from utils import is_prime, is_safe_prime, extended_euclidian_algorithm, generate_safe_prime, generate_generator, modular_exponentiation, generate_random_group_elements
+from OT import run_OT
+from blood_types import blood_types_encoding, logic_compatibility
 
 class TestMathFunctions(unittest.TestCase):
 
@@ -42,8 +43,8 @@ class TestAliceAndBob(unittest.TestCase):
     def setUp(self):
         self.r = 3  # Some random value
         self.sk = 5  # Some secret key
-        self.alice = Alice(q=11, g=2)
-        self.bob = Bob(q=11, g=2)
+        self.alice = Alice()
+        self.bob = Bob()
 
     def test_encryption_decryption(self):
         m = 7  # Some message
@@ -62,13 +63,7 @@ class TestAliceAndBob(unittest.TestCase):
     def test_interaction(self):
         for i in range(7):
             for j in range(i):
-                self.alice.choose(i)
-                self.bob.choose(j)
-                self.alice.generate_keys()
-                self.alice.send_public_keys(self.bob)
-                self.bob.encrypt_blood_types()
-                self.bob.send_ciphertexts(self.alice)
-                self.alice.decrypt_blood_compatibility()
+                run_OT(i, j, n=7, encoding=blood_types_encoding, f=logic_compatibility, alice=self.alice, bob=self.bob)
 
 
 if __name__ == '__main__':
