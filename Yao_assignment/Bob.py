@@ -25,13 +25,13 @@ class Bob(Party):
 
     def garbling_boolean_compatibility(self, alice, T=11, n=6, leq_gates=9):
         def generate_key_pair():  # TODO: add randomness
-            return (secrets.token_bytes(16), secrets.token_bytes(16))
+            return (secrets.token_bytes(8), secrets.token_bytes(8))
 
         def compute_garbled_gate(i, a, b, C, leq=False):
             sha256_hash = hashlib.sha256()
 
             # Update the hash object with the data
-            key = self.keys[self.left_indexes[i]][a] + self.keys[self.right_indexes[i]][b]
+            key = self.keys[self.left_indexes[i]][a] + self.keys[self.right_indexes[i]][b] + b'\x00' * 16
             sha256_hash.update(key)
             hash_bytes = sha256_hash.digest()
 
@@ -44,6 +44,8 @@ class Bob(Party):
 
             # Convert the result back to bytes
             result_bytes = result_int.to_bytes((result_int.bit_length() + 7) // 8, byteorder='big')
+
+
 
             C[str(a) + str(b)] = result_bytes
 
