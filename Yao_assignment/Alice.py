@@ -88,4 +88,4 @@ class Alice(Party):
                     break
             if not isFound:
                 raise Exception(f"No solution for {i}'th run")
-        return results[-1][0]
+        return result[:16]

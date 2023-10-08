@@ -23,13 +23,13 @@ class Bob(Party):
 
     def garbling_boolean_compatibility(self, alice, T=11, n=6, leq_gates=9):
         def generate_key_pair():  # TODO: add randomness
-            #return (secrets.token_bytes(8), secrets.token_bytes(8))
+            return (secrets.token_bytes(16), secrets.token_bytes(16))
             # Set a fixed seed (change the value to your desired seed)
-            seed_value = 42
-            random.seed(seed_value)
+            #seed_value = 42
+            #random.seed(seed_value)
 
             # Generate random bytes
-            return bytes([random.randint(0, 255) for _ in range(16)]), bytes([random.randint(0, 255) for _ in range(16)])
+            #return bytes([random.randint(0, 255) for _ in range(16)]), bytes([random.randint(0, 255) for _ in range(16)])
 
 
         def compute_garbled_gate(i, a, b, C, leq=False):
