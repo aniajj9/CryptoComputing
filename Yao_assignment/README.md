@@ -12,4 +12,7 @@ To run the code:
 - Run **Test.py** without arguments
 
 Note:
-We have attempted at modifying Oblivious transfer for the previous assignment to fit this task. However, at the current state of the project, oblivious transfer is not implemented in the Garbled Circuit.
+We had problems connected Yao's protocol to the OT, since we were struggling with changing bytes to integers and the other way around. 
+The OT works when the keys are integers, but the Yao protocol works when the keys are bytes. 
+We also had to add a dummy for index 0 in the different lists, such that it matches the notes we made for the implementation of the protocol.
+We started indexing the wires with 1 in the notes, and wanted to do the same in the implementation.
