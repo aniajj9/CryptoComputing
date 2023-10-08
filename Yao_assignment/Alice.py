@@ -1,6 +1,6 @@
 from utils import get_sha256_digest
 from Party import Party
-
+import hashlib
 
 class Alice(Party):
     garbled_x = []
@@ -13,7 +13,13 @@ class Alice(Party):
         self.input = input
 
     def set_Bobs_keys(self, keys):
-        self.bobs_keys = keys
+        self.X_values = keys
+
+    def set_f_values(self, f_values):
+        self.F_values = f_values
+
+    def set_Bobs_encoded_y(self, y):
+        self.Y_values = y
 
     def get_input(self):
         return self.input
@@ -23,18 +29,40 @@ class Alice(Party):
             self.K_values.append(self.X_values[i])
             self.K_values.append(self.Y_values[i])
 
-        result = []
-        for i in range(n, T+1):
+
+        for i in range(0, T+1-n):
+            print(i)
             C = self.F_values[i]
+            results = []
             for entry in C:
-                result = get_sha256_digest(self.K_values[self.left_indexes[i]][0] +
-                                           self.K_values[self.right_indexes[i]][1], i) ^ entry
+
+                sha256_hash = hashlib.sha256()
+
+                # Update the hash object with the data
+                print(i+n)
+                key = self.K_values[self.left_indexes[i+n+1]] + self.K_values[self.right_indexes[i+n+1]]
+                sha256_hash.update(key)
+                hash_bytes = sha256_hash.digest()
+
+                # Convert bytes to integers
+                hash_int = int.from_bytes(hash_bytes, byteorder='big')
+                entry_int = int(entry)
+
+                # Perform the XOR operation on integers
+                result_int = hash_int ^ entry_int
+
+                # Convert the result back to bytes
+                result = result_int.to_bytes((result_int.bit_length() + 7) // 8, byteorder='big')
+                print("---result---")
+                print(result)
+                #result = get_sha256_digest(self.K_values[self.left_indexes[i]][0] + self.K_values[self.right_indexes[i]][1], i) ^ entry
                 if result[-128:] == bytes([0] * 128):
                     print("zeros")
                     # TODO: not checking for uniqueness
-                    result.append((i, entry))
-            if len(result[i]) == 1:
-                self.K_values.append(result[i][0])
+                    results.append((i, entry))
+            print(len(results))
+            if len(results) == 1:
+                self.K_values.append(results[0])
             else:
-                return Exception(f"No solution for {i}'th run")
-        return result[-1][0]
+                raise Exception(f"No solution for {i}'th run")
+        return results[-1][0]

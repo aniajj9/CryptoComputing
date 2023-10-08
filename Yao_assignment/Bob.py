@@ -23,7 +23,7 @@ class Bob(Party):
         alice.set_Bobs_keys([first_keys[alice_input[0]], third_keys[alice_input[1]], fifth_keys[alice_input[2]]])
 
 
-    def garbling_boolean_compatibility(self, T=11, n=6, leq_gates=9):
+    def garbling_boolean_compatibility(self, alice, T=11, n=6, leq_gates=9):
         def generate_key_pair():  # TODO: add randomness
             return (secrets.token_bytes(16), secrets.token_bytes(16))
 
@@ -69,18 +69,17 @@ class Bob(Party):
             # TODO: Permutation of C
             self.F_values.append(C)
 
+        alice.set_f_values(self.F_values)
+
         return (self.F_values, self.e_value)
 
-    def encoding(self, y=[0,0,1], even=True):  # only used for Bob
+    def encoding(self, alice, y=[0,0,1], even=True):  # only used for Bob
         encoded_y = []
         j = 0
         for i in range(2 if even else 1, len(y)*2+1, 2):  # Even indices for Bob
             encoded_y.append(self.keys[i][y[j]])
             j+=1
-        print("keys")
-        print(self.keys)
-        print("encoded")
-        print(encoded_y)
+        alice.set_Bobs_encoded_y(encoded_y)
         return encoded_y
 
     def decode(self, Z):
