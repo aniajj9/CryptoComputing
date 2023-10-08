@@ -1,10 +1,10 @@
 import random
 from blood_types import logic_compatibility, blood_types_encoding
-from Party import Party
+from Party_OT import Party
 from utils import modular_exponentiation
 
 
-class Bob(Party):
+class Bob_OT(Party):
     r_encryption = []
 
     def encrypt_inputs(self, r_encryption=[], n=7, encoding=blood_types_encoding, f=logic_compatibility):
@@ -14,6 +14,8 @@ class Bob(Party):
             pk = self.public_keys[i]
             r = self.r_encryption[i]
             b = encoding[i]
+            print("chosen input tuple")
+            print(self.chosen_input)
             result = f(encoding[self.chosen_input], b)
 
             encryption = self.encryption(result, r, pk)

@@ -1,6 +1,4 @@
-import sys
-sys.path.append('../')
-from CryptoComputing.OT_assignment.OT import run_OT
+from OT import run_OT
 
 def run_Yao_OT(alice, bob):
     j = 1

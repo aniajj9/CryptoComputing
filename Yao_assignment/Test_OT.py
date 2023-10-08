@@ -1,6 +1,6 @@
 import unittest
-from Alice import Alice
-from Bob import Bob
+from Alice_OT import Alice_OT
+from Bob_OT import Bob_OT
 from utils import is_prime, is_safe_prime, extended_euclidian_algorithm, generate_safe_prime, generate_generator, modular_exponentiation, generate_random_group_elements
 from OT import run_OT
 from blood_types import blood_types_encoding, logic_compatibility
@@ -43,8 +43,8 @@ class TestAliceAndBob(unittest.TestCase):
     def setUp(self):
         self.r = 3  # Some random value
         self.sk = 5  # Some secret key
-        self.alice = Alice()
-        self.bob = Bob()
+        self.alice = Alice_OT()
+        self.bob = Bob_OT()
 
     def test_encryption_decryption(self):
         m = 7  # Some message

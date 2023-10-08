@@ -1,6 +1,7 @@
 import secrets
 from utils import get_sha256_digest
 from Party import Party
+import hashlib
 
 
 class Bob(Party):
@@ -14,8 +15,24 @@ class Bob(Party):
             return (secrets.token_bytes(16), secrets.token_bytes(16))
 
         def compute_garbled_gate(i, a, b, C, leq=False):
-            C[str(a) + str(b)] = get_sha256_digest(self.keys[self.left_indexes[i]][a] +
-                                                   self.keys[self.right_indexes[i]][b], i) ^ (self.keys[i][a <= b if leq else a * b] + b'\x00' * 128)
+            sha256_hash = hashlib.sha256()
+
+            # Update the hash object with the data
+            key = self.keys[self.left_indexes[i]][a] + self.keys[self.right_indexes[i]][b]
+            sha256_hash.update(key)
+            hash_bytes = sha256_hash.digest()
+
+            # Convert bytes to integers
+            hash_int = int.from_bytes(hash_bytes, byteorder='big')
+            key_int = int.from_bytes(self.keys[i][a <= b if leq else a * b], byteorder='big')
+
+            # Perform the XOR operation on integers
+            result_int = hash_int ^ key_int
+
+            # Convert the result back to bytes
+            result_bytes = result_int.to_bytes((result_int.bit_length() + 7) // 8, byteorder='big')
+
+            C[str(a) + str(b)] = result_bytes
 
         self.keys.append((0, 0))  # TODO: REMOVE
         for i in range(1, T+1):  # Generate keys for each wire

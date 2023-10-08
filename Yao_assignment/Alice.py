@@ -8,7 +8,7 @@ class Alice(Party):
     Y_values = []  # need to get it from outside
     K_values = []  # store keys used for circuit evaluation, must order keys correctly
 
-    def choose_input(self, input=[0, 1, 0]):
+    def __init__(self, input=[0, 1, 0]):
         self.input = input
 
     def evaluate(self, T=11, n=6):

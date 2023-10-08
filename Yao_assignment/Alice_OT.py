@@ -1,10 +1,10 @@
 import random
-from Party import Party
-from utils import find_modulo_inverse, is_safe_prime
+from Party_OT import Party
+from utils import find_modulo_inverse
 from blood_types import blood_types_encoding
 
 
-class Alice(Party):
+class Alice_OT(Party):
     ciphertexts = []
     plaintext = 0
     secret_keys = []
