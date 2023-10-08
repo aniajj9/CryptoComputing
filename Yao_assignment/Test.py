@@ -11,6 +11,7 @@ correct = []
 
 # Define the protocol steps
 def protocol(alice_values, bob_values):
+    '''
     while True:
         try:
             alice = Alice(alice_values)
@@ -23,8 +24,18 @@ def protocol(alice_values, bob_values):
             alice.send_Z_to_Bob(bob)
             return bob.decode()
         except Exception:
-            continue
+            continue'''
 
+
+    alice = Alice(alice_values)
+    bob = Bob(bob_values)
+    bob.garbling_boolean_compatibility(alice)
+    #bob.fake_ot(alice)
+    bob.yao_ot(alice)
+    bob.encoding(alice)
+    alice.evaluate()
+    alice.send_Z_to_Bob(bob)
+    return bob.decode()
 
 for i in range(len(blood_types_encoding)):
     for j in range(len(blood_types_encoding)):
