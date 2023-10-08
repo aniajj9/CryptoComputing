@@ -2,7 +2,7 @@
 import random
 
 
-class Party:
+class OT_Party:
     def __init__(self, q=11, g=2):
         self.q = q
         self.p = self.q * 2 + 1

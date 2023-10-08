@@ -1,4 +1,4 @@
-class Party:
+class Yao_Party:
     # making L(i) for blood type circuit
     left_indexes = {7: 1, 8: 3, 9: 5, 10: 7, 11: 9}
     # making R(i) for blood type circuit

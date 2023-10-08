@@ -1,36 +1,44 @@
 import secrets
-from utils import get_sha256_digest
-from Party import Party
+from Yao_Party import Yao_Party
 import hashlib
+import random
 
 
-class Bob(Party):
+class Yao_Bob(Yao_Party):
     e_value = []  # e_value.append((key0, key1))
     d_value = None
     keys = []  # keys.append((key0, key1))
     Z_value = 0
+    garbled_y = []
+    y = []
+
+    def __init__(self, y=[0, 1, 0]):
+        self.y = y
 
     def garbling_boolean_compatibility(self, T=11, n=6, leq_gates=9):
         def generate_key_pair():  # TODO: add randomness
-            return (secrets.token_bytes(16), secrets.token_bytes(16))
+            return (random.randint(0, 2 ^ 128), random.randint(0, 2 ^ 128))
+            # return (secrets.token_bytes(16), secrets.token_bytes(16))
 
         def compute_garbled_gate(i, a, b, C, leq=False):
             sha256_hash = hashlib.sha256()
 
             # Update the hash object with the data
-            key = self.keys[self.left_indexes[i]][a] + self.keys[self.right_indexes[i]][b]
-            sha256_hash.update(key)
+            key = self.keys[self.left_indexes[i]][a] + \
+                self.keys[self.right_indexes[i]][b]
+            sha256_hash.update(key.to_bytes(2, 'big'))
             hash_bytes = sha256_hash.digest()
 
             # Convert bytes to integers
             hash_int = int.from_bytes(hash_bytes, byteorder='big')
-            key_int = int.from_bytes(self.keys[i][a <= b if leq else a * b], byteorder='big')
+            key_int = self.keys[i][a <= b if leq else a * b]
 
             # Perform the XOR operation on integers
             result_int = hash_int ^ key_int
 
             # Convert the result back to bytes
-            result_bytes = result_int.to_bytes((result_int.bit_length() + 7) // 8, byteorder='big')
+            result_bytes = result_int.to_bytes(
+                (result_int.bit_length() + 7) // 8, byteorder='big')
 
             C[str(a) + str(b)] = result_bytes
 
@@ -56,12 +64,15 @@ class Bob(Party):
             # TODO: Permutation of C
             self.F_values.append(C)
 
-        return (self.F_values, self.e_value)
+        return self.F_values
 
-    def encoding(self, y, even=True):  # only used for Bob
+    def encoding(self, even=True):  # only used for Bob
         encoded_y = []
-        for i in range(0 if even else 1, len(y), 2):  # Even indices for Bob
-            encoded_y.append(self.keys[i][y[i]])
+        j = 0
+        for i in range(2 if even else 1, len(self.y)*2 + 1, 2):  # Even indices for Bob
+            encoded_y.append(self.keys[i][self.y[j]])
+            j += 1
+        self.garbled_y = encoded_y
         return encoded_y
 
     def decode(self, Z):

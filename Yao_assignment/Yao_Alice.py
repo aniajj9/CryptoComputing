@@ -1,20 +1,21 @@
 from utils import get_sha256_digest
-from Party import Party
+from Yao_Party import Yao_Party
 
 
-class Alice(Party):
+class Yao_Alice(Yao_Party):
     garbled_x = []
-    X_values = []  # need to get it from outside
-    Y_values = []  # need to get it from outside
+    garbled_y = []
     K_values = []  # store keys used for circuit evaluation, must order keys correctly
+    F_values = []  # store garbled gates
 
     def __init__(self, input=[0, 1, 0]):
         self.input = input
 
-    def evaluate(self, T=11, n=6):
+    def evaluate(self, T=11, n=7):
+        # To make the keys in correct order
         for i in range(3):
-            self.K_values.append(self.X_values[i])
-            self.K_values.append(self.Y_values[i])
+            self.K_values.append(self.garbled_x[i])
+            self.K_values.append(self.garbled_y[i])
 
         result = []
         for i in range(n, T+1):
