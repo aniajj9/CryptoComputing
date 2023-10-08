@@ -83,9 +83,13 @@ class Alice(Party):
                 if result[-16:] == b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00':
                     print("zeros!!!")
                     # TODO: not checking for uniqueness
-                    self.K_values.append(result[:16])
-                    isFound = True
-                    break
-            if not isFound:
+                    #self.K_values.append(result[:16])
+                    results.append(result[:16])
+            if len(results) == 1:
+                self.K_values.append(results[0])
+                print(f"Unique solution FOUND for {i}'th run :) :) :)")
+            elif len(results) == 0:
                 raise Exception(f"No solution for {i}'th run")
+            else:
+                raise Exception(f"Duplicated solution for {i}'th run")
         return result[:16]
