@@ -8,7 +8,7 @@ class Alice(Party):
     Y_values = []  # need to get it from outside
     K_values = []  # store keys used for circuit evaluation, must order keys correctly
 
-    def __init__(self, input=[0, 1, 0]):
+    def __init__(self, input=[0, 0, 1]):
         self.bobs_keys = None
         self.input = input
 
@@ -92,4 +92,9 @@ class Alice(Party):
                 raise Exception(f"No solution for {i}'th run")
             else:
                 raise Exception(f"Duplicated solution for {i}'th run")
+        self.Z = results[-1]
         return result[:16]
+
+
+    def send_Z_to_Bob(self, bob):
+        bob.set_Z(self.Z)

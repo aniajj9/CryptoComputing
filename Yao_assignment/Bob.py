@@ -114,3 +114,15 @@ class Bob(Party):
         elif Z == self.d_value[1]:
             return 1
         return Exception(f"Decoding failed. Z: {Z}, d values: {self.d_value}")
+
+    def set_Z(self, Z):
+        self.Z = Z
+
+    def decode(self):
+        if self.Z == self.d_value[0]:
+            return 0
+        elif self.Z == self.d_value[1]:
+            return 1
+        else:
+            raise Exception("Z value doesnt fit either of d values")
+

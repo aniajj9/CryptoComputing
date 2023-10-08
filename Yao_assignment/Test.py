@@ -14,6 +14,9 @@ class TestAliceAndBob(unittest.TestCase):
         self.bob.fake_ot(self.alice)
         self.bob.encoding(self.alice)
         self.alice.evaluate()
+        self.alice.send_Z_to_Bob(self.bob)
+        result = self.bob.decode()
+        print(result)
 
     '''def test_interaction(self):
         self.bob.garbling_boolean_compatibility()
