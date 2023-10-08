@@ -1,55 +1,46 @@
-import unittest
-
 from Alice import Alice
 from Bob import Bob
 from blood_types import blood_types_encoding, logic_compatibility
 
 
+blood_types_encoding_arrays = [[0, 0, 0], [0, 0, 1], [1, 0, 0], [1, 0, 1], [0, 1, 0], [0, 1, 1], [1, 1, 0], [1, 1, 1]]
 
-class TestAliceAndBob(unittest.TestCase):
-
-
-    def test_bob(self):
-        def setUp(alice_val, bob_val):
-            self.alice = Alice(alice_val)
-            self.bob = Bob(bob_val)
-
-        def protocol(receiver, donor):
-            setUp(receiver, donor)
-            self.bob.garbling_boolean_compatibility(self.alice)
-            self.bob.fake_ot(self.alice)
-            self.bob.encoding(self.alice)
-            self.alice.evaluate()
-            self.alice.send_Z_to_Bob(self.bob)
-            result = self.bob.decode()
-            return result
-        exceptions = []
-        correct = []
-        for receiver in blood_types_encoding:
-            for donor in blood_types_encoding:
-                logic_result = logic_compatibility(donor, receiver)
-                protocol_result = protocol(donor, receiver)
-                if protocol_result != logic_result:
-                    exceptions.append(f"different vals for {self.alice.input}, {self.bob.input}: logic {logic_result}, protocol: {protocol_result}")
-                else:
-                    correct.append(f"same vals for {self.alice.input}, {self.bob.input}: logic {logic_result}, protocol: {protocol_result}")
+exceptions = []
+correct = []
 
 
-        print(exceptions)
+# Define the protocol steps
+def protocol(alice_values, bob_values):
+    while True:
+        try:
+            alice = Alice(alice_values)
+            bob = Bob(bob_values)
+            bob.garbling_boolean_compatibility(alice)
+            bob.fake_ot(alice)
+            bob.encoding(alice)
+            alice.evaluate()
+            alice.send_Z_to_Bob(bob)
+            return bob.decode()
+        except Exception:
+            continue
 
-        print("---------------")
-        print(correct)
 
-    '''def test_interaction(self):
-        self.bob.garbling_boolean_compatibility()
+for i in range(len(blood_types_encoding)):
+    for j in range(len(blood_types_encoding)):
+        logic_result = logic_compatibility(blood_types_encoding[i], blood_types_encoding[j])
+        result = protocol(blood_types_encoding_arrays[i], blood_types_encoding_arrays[j])
 
-        run_Yao_OT(self.alice, self.bob)
+        if result != logic_result:
+            exceptions.append(
+                f"different values for {blood_types_encoding_arrays[i]}, {blood_types_encoding_arrays[j]}: logic {logic_result}, protocol: {result}")
+        else:
+            correct.append(
+                f"{blood_types_encoding_arrays[i]}, {blood_types_encoding_arrays[j]}: {bool(result)}")
 
-        self.bob.Z_value = self.alice.evaluate()
-        self.bob.decode()'''
-
-
-
-
-if __name__ == '__main__':
-    unittest.main()
+print("Values for which logic function and Yao protocol returned different results: ")
+for val in exceptions:
+    print(val)
+print("---------------")
+print("Values for which logic function and Yao protocol returned same results: ")
+for val in correct:
+    print(val)

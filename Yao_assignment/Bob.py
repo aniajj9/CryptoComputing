@@ -3,7 +3,7 @@ from Party import Party
 import hashlib
 
 
-class Bob():
+class Bob:
 
     def __init__(self, input_bits):
         self.input = input_bits

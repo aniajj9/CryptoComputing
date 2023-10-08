@@ -3,7 +3,7 @@ from Party import Party
 import hashlib
 
 
-class Alice():
+class Alice:
 
     def __init__(self, input_bits):
         self.final_results = None
