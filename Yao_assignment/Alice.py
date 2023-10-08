@@ -9,7 +9,14 @@ class Alice(Party):
     K_values = []  # store keys used for circuit evaluation, must order keys correctly
 
     def __init__(self, input=[0, 1, 0]):
+        self.bobs_keys = None
         self.input = input
+
+    def set_Bobs_keys(self, keys):
+        self.bobs_keys = keys
+
+    def get_input(self):
+        return self.input
 
     def evaluate(self, T=11, n=6):
         for i in range(3):

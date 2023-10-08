@@ -5,10 +5,23 @@ import hashlib
 
 
 class Bob(Party):
-    e_value = []  # e_value.append((key0, key1))
+    e_value = [(0,0)]  # e_value.append((key0, key1))
     d_value = None
     keys = []  # keys.append((key0, key1))
     Z_value = 0
+
+    def fake_ot(self, alice):
+        first_keys = self.keys[1]
+        third_keys = self.keys[3]
+        fifth_keys = self.keys[5]
+
+        alice_input = alice.get_input()
+        print(first_keys[alice_input[0]])
+        print(third_keys[alice_input[1]])
+        print(fifth_keys[alice_input[2]])
+
+        alice.set_Bobs_keys([first_keys[alice_input[0]], third_keys[alice_input[1]], fifth_keys[alice_input[2]]])
+
 
     def garbling_boolean_compatibility(self, T=11, n=6, leq_gates=9):
         def generate_key_pair():  # TODO: add randomness
@@ -58,10 +71,16 @@ class Bob(Party):
 
         return (self.F_values, self.e_value)
 
-    def encoding(self, y, even=True):  # only used for Bob
+    def encoding(self, y=[0,0,1], even=True):  # only used for Bob
         encoded_y = []
-        for i in range(0 if even else 1, len(y), 2):  # Even indices for Bob
-            encoded_y.append(self.keys[i][y[i]])
+        j = 0
+        for i in range(2 if even else 1, len(y)*2+1, 2):  # Even indices for Bob
+            encoded_y.append(self.keys[i][y[j]])
+            j+=1
+        print("keys")
+        print(self.keys)
+        print("encoded")
+        print(encoded_y)
         return encoded_y
 
     def decode(self, Z):
