@@ -20,3 +20,4 @@ def logic_compatibility(blood_type_receiver, blood_type_donor) -> bool:
 
 
 blood_types_encoding = [0b000, 0b001, 0b100, 0b101, 0b010, 0b011, 0b110, 0b111]
+blood_types_encoding_arrays = [[0, 0, 0],[0, 0, 1], [1, 0, 0], [1, 0, 1], [0, 1, 0], [0, 1, 1], [1, 1, 0], [1, 1, 1]]
