@@ -12,7 +12,8 @@ class Party():
 
     def encryption(self, m):
         def random_subset(pk_len):
-            subset_size = secrets.randbelow(pk_len - 1 ) + 1
+            #subset_size = secrets.randbelow(pk_len - 1 ) + 1
+            subset_size = 10 # TODO: think about the subsetsize
             self.S = random.sample(list(range(pk_len)), subset_size) # TODO: change to secrets
             return self.S
         

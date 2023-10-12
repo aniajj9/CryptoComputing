@@ -9,7 +9,7 @@ def run_homomorphic_encryption(alice_blood, bob_blood, key_gen=None):
 
     print("log 2")
     alice = Alice(encoded_alice_blood, key_gen)
-    bob = Bob(encoded_bob_blood, key_gen)
+    bob = Bob(encoded_bob_blood)
 
     print("log 3")
     alice.generate_keys()

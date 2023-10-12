@@ -4,12 +4,7 @@ from KeyGenerator import KeyGenerator
 class Alice(Party):
     def __init__(self, bloodtype, key_gen=None):
         super().__init__(bloodtype)
-
-        if(key_gen):
-            self.key_gen = key_gen
-        else:
-            self.key_gen = KeyGenerator()
-
+        self.key_gen = key_gen or KeyGenerator()
         self.own_ciphertexts = None
 
     def generate_keys(self):
