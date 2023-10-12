@@ -16,5 +16,7 @@ class Bob(Party):
     def receive_ciphertexts(self, ciphertexts):
         self.ciphertexts = ciphertexts
         
+    def receive_public_keys(self, pk):
+        self.pk = pk
 
                 

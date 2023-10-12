@@ -1,24 +1,22 @@
 import unittest
-from Alice import Alice
-from Bob import Bob
+from utils import check_compatibility
+from HomomorphicEncryption import run_homomorphic_encryption
+from KeyGenerator import KeyGenerator
 
 class TestAliceAndBobDHE(unittest.TestCase):
     def setUp(self):
-        self.alice = Alice([1,0,0])
-        self.bob = Bob([0,1,0])
+        self.blood_types = ['0-', '0+', 'A-', 'A+', 'B-', 'B+', 'AB-', 'AB+']
+
 
     def test_interaction(self):
-        self.alice.generate_keys()
-        self.alice.send_public_keys(self.bob)
-        self.alice.compute_ciphertexts()
-        self.alice.send_own_ciphertexts(self.bob)
+        key_gen = KeyGenerator()
 
-        self.bob.compute_function()
-        self.bob.send_result_ciphertext()
+        for alice_blood in self.blood_types:
+            for bob_blood in self.blood_types:
+                is_compatible = check_compatibility((alice_blood, bob_blood), False)
+                result = run_homomorphic_encryption(alice_blood, bob_blood, key_gen)
 
-        result = self.alice.decrypt_output()
-        
-
+                self.assertEqual(is_compatible, result)        
     
 if __name__ == '__main__':
     unittest.main()
