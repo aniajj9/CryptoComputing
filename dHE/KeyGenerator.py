@@ -1,10 +1,10 @@
 import secrets
 
 class KeyGenerator:
-    p_bits = 2000
-    q_bits = 10**7
-    r_bits = 60
-    n = 2000
+    p_bits = 10 #2000
+    q_bits = 100 #10**7
+    r_bits = 0 #TODO change
+    n = 200 #2000
     p = None
     y_values = None
 
@@ -29,8 +29,7 @@ class KeyGenerator:
     def generate_secret_key(self):
         '''Generate the secret key p (odd integer).'''
         p = secrets.randbelow(2**self.p_bits)
-        if p % 2 == 0:
-            p += 1
+        p |= 1  # Set the least significant bit to ensure the number is odd
         return p
 
     def generate_random_integers(self, bit_length, count):

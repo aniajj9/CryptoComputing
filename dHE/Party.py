@@ -1,28 +1,23 @@
 import secrets
-import random
 
 class Party():
     def __init__(self, bloodtype):
-        self.ciphertexts = []
         self.bloodtype = bloodtype
-        self.result_ciphertext = None
+
+        self.alice_encrypted_blood_type = []
+        self.encrypted_result = None
+
         self.C = 0
         self.S = []
         self.pk = []
 
-    def encryption(self, m):
-        def random_subset(pk_len):
-            #subset_size = secrets.randbelow(pk_len - 1 ) + 1
-            subset_size = 10 # TODO: think about the subsetsize
-            self.S = random.sample(list(range(pk_len)), subset_size) # TODO: change to secrets
-            return self.S
-        
-        self.S = random_subset(len(self.pk))
-        for i in self.S:
-            self.C += self.pk[i]
-        self.C += m
+    def encrypt(self, m):
+        pk_len = len(self.pk)
+        subset_size = int(pk_len / 2)
+
+        self.S = [secrets.choice(range(pk_len)) for _ in range(subset_size)]
+        self.C = sum(self.pk[i] for i in self.S) + m
+
         return self.C
 
-    def receive_ciphertexts(self, ciphertexts):
-        self.ciphertexts = ciphertexts
     

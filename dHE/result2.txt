@@ -1,0 +1,706 @@
+key generation takes place... 
+log 0
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: 0-, bob blood: 0-, result: 0
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: 0-, bob blood: 0+, result: 0
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: 0-, bob blood: A-, result: 1
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: 0-, bob blood: A+, result: 0
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: 0-, bob blood: B-, result: 0
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: 0-, bob blood: B+, result: 0
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: 0-, bob blood: AB-, result: 0
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: 0-, bob blood: AB+, result: 0
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: 0+, bob blood: 0-, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: 0+, bob blood: 0+, result: 0
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: 0+, bob blood: A-, result: 1
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: 0+, bob blood: A+, result: 1
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: 0+, bob blood: B-, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: 0+, bob blood: B+, result: 0
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: 0+, bob blood: AB-, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: 0+, bob blood: AB+, result: 0
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: A-, bob blood: 0-, result: 1
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: A-, bob blood: 0+, result: 1
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: A-, bob blood: A-, result: 1
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: A-, bob blood: A+, result: 1
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: A-, bob blood: B-, result: 1
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: A-, bob blood: B+, result: 1
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: A-, bob blood: AB-, result: 1
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: A-, bob blood: AB+, result: 1
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: A+, bob blood: 0-, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: A+, bob blood: 0+, result: 1
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: A+, bob blood: A-, result: 1
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: A+, bob blood: A+, result: 0
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: A+, bob blood: B-, result: 1
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: A+, bob blood: B+, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: A+, bob blood: AB-, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: A+, bob blood: AB+, result: 1
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: B-, bob blood: 0-, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: B-, bob blood: 0+, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: B-, bob blood: A-, result: 1
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: B-, bob blood: A+, result: 1
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: B-, bob blood: B-, result: 0
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: B-, bob blood: B+, result: 0
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: B-, bob blood: AB-, result: 1
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: B-, bob blood: AB+, result: 1
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: B+, bob blood: 0-, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: B+, bob blood: 0+, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: B+, bob blood: A-, result: 1
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: B+, bob blood: A+, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: B+, bob blood: B-, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: B+, bob blood: B+, result: 0
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: B+, bob blood: AB-, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: B+, bob blood: AB+, result: 1
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: AB-, bob blood: 0-, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: AB-, bob blood: 0+, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: AB-, bob blood: A-, result: 1
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: AB-, bob blood: A+, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: AB-, bob blood: B-, result: 1
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: AB-, bob blood: B+, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: AB-, bob blood: AB-, result: 0
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: AB-, bob blood: AB+, result: 0
+truth table: True
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: AB+, bob blood: 0-, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: AB+, bob blood: 0+, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: AB+, bob blood: A-, result: 1
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: AB+, bob blood: A+, result: 1
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: AB+, bob blood: B-, result: 1
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: AB+, bob blood: B+, result: 1
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: AB+, bob blood: AB-, result: 0
+truth table: False
+log 1
+log 2
+log 3
+log 4
+log 5
+log 6
+log 7
+log 8
+log 9
+alice blood: AB+, bob blood: AB+, result: 0
+truth table: True
