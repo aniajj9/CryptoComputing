@@ -1,9 +1,9 @@
 import secrets
 
 class KeyGenerator:
-    p_bits = 10 #2000
+    p_bits = 100 #2000
     q_bits = 100 #10**7
-    r_bits = 0 #TODO change
+    r_bits = 1 #TODO change
     n = 200 #2000
     p = None
     y_values = None
