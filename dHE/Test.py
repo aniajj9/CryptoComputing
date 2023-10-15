@@ -18,7 +18,6 @@ class TestHomomorphicEncryption(unittest.TestCase):
 
             # Encrypt blood type and print ciphertexts
             alice_ciphertext = alice.compute_ciphertexts()
-            print("Alice ciphertext: ", alice_ciphertext)
 
             # Decrypt ciphertexts and print results
             decrypted_data = [alice.decrypt(i) for i in alice_ciphertext]
