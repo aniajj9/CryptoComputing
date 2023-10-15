@@ -14,8 +14,12 @@ class Party():
     def encrypt(self, m):
         pk_len = len(self.pk)
         subset_size = int(pk_len / 2)
+        self.S = set()
+        
+        while len(self.S) < subset_size:
+            self.S.add(secrets.choice(range(pk_len)))
+        self.S = list(self.S)
 
-        self.S = [secrets.choice(range(pk_len)) for _ in range(subset_size)]
         self.C = sum(self.pk[i] for i in self.S) + m
 
         return self.C
