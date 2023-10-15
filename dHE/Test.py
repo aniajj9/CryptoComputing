@@ -31,7 +31,7 @@ class TestHomomorphicEncryption(unittest.TestCase):
 
         for alice_blood in self.blood_types:
             for bob_blood in self.blood_types:
-                is_compatible = check_compatibility(bob_blood, alice_blood)
+                is_compatible = check_compatibility(alice_blood, bob_blood)
                 result = run_homomorphic_encryption(alice_blood, bob_blood, key_gen)
                 print(f"truth table: {is_compatible}")
                 self.assertEqual(is_compatible, result)    

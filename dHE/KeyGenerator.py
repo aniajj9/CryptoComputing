@@ -1,10 +1,10 @@
 import secrets
 
 class KeyGenerator:
-    p_bits = 2000 #100
-    q_bits = 10**7 #100
-    r_bits = 60 #5
-    n = 2000 #200
+    p_bits = 100 #2000
+    q_bits = 100 #10**7
+    r_bits = 5 #60
+    n = 200 #2000
     p = None
     y_values = None
 

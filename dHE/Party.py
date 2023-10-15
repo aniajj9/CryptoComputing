@@ -13,9 +13,12 @@ class Party():
 
     def encrypt(self, m):
         pk_len = len(self.pk)
+        pk_indices = [x for x in range(pk_len)] #new
         subset_size = int(pk_len / 2)
 
-        self.S = [secrets.choice(range(pk_len)) for _ in range(subset_size)]
+        #self.S = [secrets.choice(range(pk_len)) for _ in range(subset_size)]
+        self.S = [x for x in pk_indices if secrets.randbelow(2) == 1] #new
+
         self.C = sum(self.pk[i] for i in self.S) + m
 
         return self.C

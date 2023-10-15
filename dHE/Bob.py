@@ -7,8 +7,8 @@ class Bob(Party):
         one_encryption = self.encrypt(1)
         c_values = []
         for i in range(3):
-            #c_value = (one_encryption + ((one_encryption + self.alice_encrypted_blood_type[i]) * self.encrypt(self.bloodtype[i])))
-            c_value = (one_encryption + ((one_encryption + self.encrypt(self.bloodtype[i])) * self.alice_encrypted_blood_type[i] ))
+            c_value = (one_encryption + ((one_encryption + self.alice_encrypted_blood_type[i]) * self.encrypt(self.bloodtype[i])))
+            #c_value = (one_encryption + ((one_encryption + self.encrypt(self.bloodtype[i])) * self.alice_encrypted_blood_type[i] ))
             c_values.append(c_value)
         self.encrypted_result = reduce(lambda x, y: x*y, c_values) # Multiply all elements of a list with eachother
     
